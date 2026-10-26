@@ -4,6 +4,8 @@ Herramienta interactiva de análisis académico y profesional diseñada para dia
 
 El recurso combina un cuestionario estructurado con un motor de análisis basado en la API de Google Gemini (`@google/genai`), generando retroalimentación personalizada, detección de posibles sesgos o sobrestimaciones, visualizaciones gráficas interactivas y un informe ejecutivo descargable en formato PDF.
 
+![Vista previa de la aplicación Evaluación de impacto: IAGen](./public/screenshot.svg)
+
 ---
 
 ## Propósito y enfoque metodológico
@@ -38,13 +40,15 @@ La adopción de herramientas de inteligencia artificial generativa suele estar a
 ## Estructura del proyecto
 
 ```text
-├── index.html       # Estructura principal, estilos (glassmorphism) y ventana modal informativa
-├── index.tsx        # Lógica de la aplicación, flujo de pasos, conexión con Gemini, gráficos y exportación a PDF
-├── config.js        # Parámetros generales de configuración y registro de eventos
-├── vite.config.ts   # Configuración del entorno de desarrollo y empaquetado con Vite
-├── package.json     # Declaración de dependencias y scripts de ejecución
-├── tsconfig.json    # Configuración del compilador de TypeScript
-└── metadata.json    # Metadatos descriptivos de la aplicación
+├── public/
+│   └── screenshot.svg # Captura de pantalla de la interfaz para la documentación
+├── index.html         # Estructura principal, estilos (glassmorphism) y ventana modal informativa
+├── index.tsx          # Lógica de la aplicación, flujo de pasos, conexión con Gemini, gráficos y exportación a PDF
+├── config.js          # Parámetros generales de configuración y registro de eventos
+├── vite.config.ts     # Configuración del entorno de desarrollo y empaquetado con Vite
+├── package.json       # Declaración de dependencias y scripts de ejecución
+├── tsconfig.json      # Configuración del compilador de TypeScript
+└── metadata.json      # Metadatos descriptivos de la aplicación
 ```
 
 ---
