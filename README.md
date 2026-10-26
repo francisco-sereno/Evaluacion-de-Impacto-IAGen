@@ -1,5 +1,13 @@
 # Evaluación de impacto: IAGen en el día a día
 
+[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.1.0-007BFF?style=for-the-badge)](./package.json)
+[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-2.5%20Flash-4285F4?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Licencia de código: GPL v3](https://img.shields.io/badge/c%C3%B3digo-GPL%20v3.0-28a745?style=for-the-badge&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0)
+[![Licencia de contenido: CC BY-NC 4.0](https://img.shields.io/badge/contenido-CC%20BY--NC%204.0-1abc9c?style=for-the-badge&logo=creativecommons&logoColor=white)](https://creativecommons.org/licenses/by-nc/4.0/)
+[![Autor en LinkedIn](https://img.shields.io/badge/autor-Francisco%20Sere%C3%B1o-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/franciscosereno)
+
 Herramienta interactiva de análisis académico y profesional diseñada para diagnosticar, proyectar y evaluar de manera crítica el potencial impacto de la inteligencia artificial generativa (IAGen) en el quehacer laboral cotidiano.
 
 El recurso combina un cuestionario estructurado con un motor de análisis basado en la API de Google Gemini (`@google/genai`), generando retroalimentación personalizada, detección de posibles sesgos o sobrestimaciones, visualizaciones gráficas interactivas y un informe ejecutivo descargable en formato PDF.
@@ -95,6 +103,14 @@ La adopción de herramientas de inteligencia artificial generativa suele estar a
 
 ## Tecnologías utilizadas
 
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Google Gemini](https://img.shields.io/badge/%40google%2Fgenai-1.11.0-4285F4?style=flat-square&logo=googlegemini&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-4.4.2-FF6384?style=flat-square&logo=chartdotjs&logoColor=white)
+![jsPDF](https://img.shields.io/badge/jsPDF-2.5.1-c0392b?style=flat-square&logo=adobeacrobatreader&logoColor=white)
+
 - **Interfaz y lógica de cliente**: HTML5, CSS3 (variables nativas, diseño adaptable y efectos *glassmorphism*) y TypeScript.
 - **Entorno de construcción**: [Vite](https://vitejs.dev/).
 - **Inteligencia artificial**: [Google Gen AI SDK (`@google/genai`)](https://www.npmjs.com/package/@google/genai).
@@ -106,7 +122,7 @@ La adopción de herramientas de inteligencia artificial generativa suele estar a
 ## Créditos y autoría
 
 - **Autor**: Francisco Sereño — Profesor, doctor (c) en Educación y Sociedad, Universitat de Barcelona.
-- **LinkedIn**: [https://www.linkedin.com/in/franciscosereno](https://www.linkedin.com/in/franciscosereno)
+- **Contacto profesional**: [![LinkedIn](https://img.shields.io/badge/LinkedIn-Francisco%20Sere%C3%B1o-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/franciscosereno) (`https://www.linkedin.com/in/franciscosereno`)
 
 ---
 
