@@ -1,50 +1,61 @@
-# Evaluación de Impacto: IAGen en el Día a Día
-**Recurso Evaluativo con IA ─ VTI IA · Universidad de Chile**
+# Evaluación de impacto: IAGen en el día a día
 
-Herramienta interactiva de análisis académico y profesional diseñada para diagnosticar, proyectar y evaluar de manera crítica el potencial impacto de la **Inteligencia Artificial Generativa (IAGen)** en el quehacer laboral y académico cotidiano. Utiliza la API de **Google Gemini (`@google/genai`)** con esquemas JSON estructurados para ofrecer retroalimentación personalizada, detección de sesgos o sobrestimaciones, visualización de datos y generación de reportes descargables en PDF.
+Herramienta interactiva de análisis académico y profesional diseñada para diagnosticar, proyectar y evaluar de manera crítica el potencial impacto de la inteligencia artificial generativa (IAGen) en el quehacer laboral cotidiano.
 
----
-
-## Características Principales
-
-- **Diagnóstico Estructurado en 4 Dimensiones**:
-  1. **Perfil profesional y contexto laboral**: Sector de desempeño, rol habitual y nivel de familiaridad con herramientas de IA.
-  2. **Análisis de tareas y procesos**: Proporción de tareas rutinarias frente a creativas/analíticas, carga de redacción semanal y cuellos de botella en la productividad.
-  3. **Escenarios de implementación de IAGen**: Selección de herramientas relevantes, identificación de barreras institucionales/técnicas/éticas y horizonte temporal de adopción.
-  4. **Proyección de impactos**: Estimación de mejora en productividad, áreas de impacto positivo, riesgos éticos/operativos y brechas de habilidades.
-- **Análisis Crítico Impulsado por IA**:
-  - Integración directa con el modelo `gemini-2.5-flash` mediante `@google/genai`.
-  - Evaluación estructurada del nivel de madurez tecnológica, potencial real de mejora, advertencias sobre posibles sobrestimaciones y plan de acción en el corto y mediano plazo.
-  - Modo de respaldo (*fallback local*) automático cuando no se detecta conexión o clave de API configurada.
-- **Visualización Interactiva de Datos**:
-  - Gráficos dinámicos generados con **Chart.js** (distribución de tareas en barras, radar de perfil laboral y gráfico de anillo para barreras percibidas).
-- **Persistencia Local y Exportación a PDF**:
-  - Guardado automático y manual del progreso en el navegador (`localStorage`).
-  - Generación de informes ejecutivos detallados en formato **PDF** mediante `jsPDF` y `jspdf-autotable`.
+El recurso combina un cuestionario estructurado con un motor de análisis basado en la API de Google Gemini (`@google/genai`), generando retroalimentación personalizada, detección de posibles sesgos o sobrestimaciones, visualizaciones gráficas interactivas y un informe ejecutivo descargable en formato PDF.
 
 ---
 
-## Estructura del Proyecto
+## Propósito y enfoque metodológico
+
+La adopción de herramientas de inteligencia artificial generativa suele estar acompañada tanto de expectativas desmedidas como de resistencias institucionales o éticas. Este instrumento propone un ejercicio de reflexión guiada que permite al usuario:
+
+1. Mapear la composición real de su carga de trabajo (tareas rutinarias frente a tareas analíticas y creativas).
+2. Identificar cuellos de botella operativos susceptibles de optimización o asistencia tecnológica.
+3. Contrastar sus expectativas de mejora productiva con un análisis crítico automatizado que advierte sobre riesgos de dependencia tecnológica, brechas de competencias y desafíos éticos.
+
+---
+
+## Características principales
+
+- **Diagnóstico estructurado en cuatro dimensiones**:
+  1. **Perfil profesional y contexto laboral**: sector de desempeño, descripción del rol habitual y nivel actual de familiaridad con herramientas de IA.
+  2. **Análisis de tareas y procesos**: proporción de labores rutinarias frente a creativas, dedicación semanal a la redacción de documentos e identificación de los principales cuellos de botella.
+  3. **Escenarios de implementación de IAGen**: selección de herramientas pertinentes según el rol, reconocimiento de barreras de adopción (éticas, técnicas, institucionales o de privacidad) y estimación del horizonte de implementación.
+  4. **Proyección de impactos**: estimación porcentual de mejora en la productividad, áreas de impacto positivo esperado, preocupaciones identificadas y nuevas habilidades requeridas.
+- **Evaluación crítica mediante IA generativa**:
+  - Integración con el modelo `gemini-2.5-flash` utilizando esquemas de respuesta estructurados (`responseSchema` en formato JSON).
+  - Generación de un diagnóstico dividido en cuatro ejes: *perfil profesional y madurez tecnológica*, *análisis realista de productividad y posibles sobrestimaciones*, *plan de recomendaciones (acciones inmediatas, mediano plazo y habilidades)* y *conclusiones estratégicas*.
+  - Sistema de respaldo (*fallback* local) que garantiza la entrega de una evaluación base incluso cuando la aplicación se ejecuta sin conexión a la API.
+- **Visualización dinámica de resultados**:
+  - Gráficos interactivos renderizados con Chart.js que representan la distribución temporal de tareas, el radar de perfil laboral y la proporción de barreras percibidas.
+- **Privacidad, persistencia local y exportación documental**:
+  - Almacenamiento automático y manual del avance de la sesión directamente en el navegador del usuario (`localStorage`), sin enviar datos personales a servidores intermedios.
+  - Generación de un informe completo en formato PDF mediante jsPDF y jsPDF-AutoTable, listo para su archivo o uso en actividades de formación y docencia.
+
+---
+
+## Estructura del proyecto
 
 ```text
-├── index.html       # Interfaz principal, estilos (Glassmorphism) y modales informativos
-├── index.tsx        # Lógica de estado, flujo de evaluación, integración con Gemini, gráficos y exportación PDF
-├── config.js        # Parámetros de configuración general y utilidades de validación
-├── vite.config.ts   # Configuración del servidor de desarrollo y empaquetado con Vite
-├── package.json     # Dependencias y scripts del proyecto
-├── tsconfig.json    # Configuración de TypeScript
-└── metadata.json    # Metadatos de la aplicación
+├── index.html       # Estructura principal, estilos (glassmorphism) y ventana modal informativa
+├── index.tsx        # Lógica de la aplicación, flujo de pasos, conexión con Gemini, gráficos y exportación a PDF
+├── config.js        # Parámetros generales de configuración y registro de eventos
+├── vite.config.ts   # Configuración del entorno de desarrollo y empaquetado con Vite
+├── package.json     # Declaración de dependencias y scripts de ejecución
+├── tsconfig.json    # Configuración del compilador de TypeScript
+└── metadata.json    # Metadatos descriptivos de la aplicación
 ```
 
 ---
 
-## Requisitos e Instalación Local
+## Requisitos e instalación local
 
 ### Requisitos previos
-- **Node.js** (versión 18 o superior recomendada)
-- Una clave de API de **Google Gemini** (obtenible en [Google AI Studio](https://aistudio.google.com/))
+- **Node.js** (versión 18 o superior recomendada).
+- Una clave de API de **Google Gemini**, que puede obtenerse en [Google AI Studio](https://aistudio.google.com/).
 
-### Pasos de instalación
+### Pasos de instalación y uso
 
 1. **Clonar o descargar el repositorio**:
    ```bash
@@ -58,11 +69,11 @@ Herramienta interactiva de análisis académico y profesional diseñada para dia
    ```
 
 3. **Configurar las variables de entorno**:
-   Crea o edita el archivo `.env.local` en la raíz del proyecto y define tu clave de API de Gemini:
+   Crea o edita el archivo `.env.local` en la raíz del proyecto e incorpora tu clave de API:
    ```env
    GEMINI_API_KEY=tu_clave_api_de_gemini_aqui
    ```
-   > **Nota de seguridad**: Nunca insertes tu clave de API directamente en el código fuente ni subas el archivo `.env.local` a repositorios públicos.
+   > **Nota de seguridad**: Nunca incluyas tu clave de API directamente en el código fuente ni subas el archivo `.env.local` a un repositorio público. Si no se configura una clave, la herramienta funcionará automáticamente en modo de análisis local.
 
 4. **Iniciar el servidor de desarrollo**:
    ```bash
@@ -78,27 +89,24 @@ Herramienta interactiva de análisis académico y profesional diseñada para dia
 
 ---
 
-## Tecnologías Utilizadas
+## Tecnologías utilizadas
 
-- **Frontend**: HTML5, CSS3 (Diseño responsivo con Variables CSS y Glassmorphism), TypeScript
-- **Bundler**: [Vite](https://vitejs.dev/)
-- **Inteligencia Artificial**: [Google Gen AI SDK (`@google/genai`)](https://www.npmjs.com/package/@google/genai)
-- **Visualización de Datos**: [Chart.js](https://www.chartjs.org/)
-- **Generación de Documentos**: [jsPDF](https://github.com/parallax/jsPDF) & [jsPDF-AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable)
+- **Interfaz y lógica de cliente**: HTML5, CSS3 (variables nativas, diseño adaptable y efectos *glassmorphism*) y TypeScript.
+- **Entorno de construcción**: [Vite](https://vitejs.dev/).
+- **Inteligencia artificial**: [Google Gen AI SDK (`@google/genai`)](https://www.npmjs.com/package/@google/genai).
+- **Visualización de datos**: [Chart.js](https://www.chartjs.org/).
+- **Generación de informes PDF**: [jsPDF](https://github.com/parallax/jsPDF) y [jsPDF-AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable).
 
 ---
 
-## Créditos y Autoría
+## Créditos y autoría
 
-- **Autor**: **Francisco Sereño** — Profesor, Doctor (c) en Educación y Sociedad, Universitat de Barcelona.
+- **Autor**: Francisco Sereño — Profesor, doctor (c) en Educación y Sociedad, Universitat de Barcelona.
 - **LinkedIn**: [https://www.linkedin.com/in/franciscosereno](https://www.linkedin.com/in/franciscosereno)
-- **Institución**: VTI IA · Universidad de Chile
 
 ---
 
 ## Licenciamiento
 
-- **Código fuente**: Distribuido bajo la licencia **GNU General Public License v3.0 (GPL-3.0)**.
-- **Contenido didáctico y metodológico**: Distribuido bajo la licencia **Creative Commons Atribución-NoComercial 4.0 Internacional (CC BY-NC 4.0)**.
-
-© VTI IA ─ Universidad de Chile
+- **Código fuente**: distribuido bajo la licencia **GNU General Public License v3.0 (GPL-3.0)**.
+- **Contenido didáctico y metodológico**: distribuido bajo la licencia **Creative Commons Atribución-NoComercial 4.0 Internacional (CC BY-NC 4.0)**.
