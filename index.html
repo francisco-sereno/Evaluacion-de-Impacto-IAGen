@@ -7,521 +7,290 @@
     <meta name="description" content="Herramienta de análisis académico para evaluar el potencial impacto de la inteligencia artificial generativa.">
     <meta property="og:title" content="Evaluación de Impacto: IAGen">
     <meta property="og:description" content="Herramienta de análisis académico para evaluar el potencial impacto de la inteligencia artificial generativa.">
-    <style>
-        :root {
-            --primary-blue: #007BFF;
-            --primary-dark: #212529;
-            --text-color: #343a40;
-            --text-muted: #6c757d;
-            --background: #F8F9FA;
-            --white: #ffffff;
-            --border-color: rgba(0, 0, 0, 0.1);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
-            --accent-green: #28a745;
-            --accent-red: #dc3545;
-            --accent-teal: #1abc9c;
+    <meta property="og:type" content="website">
+    <script>
+        var APP_CONFIG = {
+            version: '2.0.0',
+            name: 'IAGen Evaluation Tool',
+            debug: false,
+            fallbackEnabled: true,
+            retryAttempts: 2,
+            timeoutMs: 30000
+        };
+
+        function logMessage(level, message, data) {
+            if (APP_CONFIG.debug || level === 'error') {
+                var timestamp = new Date().toISOString();
+                console[level]('[IAGen-' + level.toUpperCase() + '] ' + timestamp + ' - ' + message, data || '');
+            }
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.7;
-            color: var(--text-color);
-            background-color: var(--background);
-            min-height: 100vh;
-            padding: 1.5rem;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow: hidden; /* Hide scrollbars from aurora bg */
+        if (typeof window !== 'undefined') {
+            window.APP_CONFIG = APP_CONFIG;
+            window.logMessage = logMessage;
         }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 123, 255, 0.2), transparent 30%),
-                radial-gradient(circle at 80% 90%, rgba(26, 188, 156, 0.2), transparent 30%),
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3), transparent 30%);
-            animation: aurora 20s infinite linear;
-            z-index: -1;
-        }
-
-        @keyframes aurora {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .container { 
-            max-width: 900px; 
-            margin: 2rem auto; 
-            position: relative;
-            z-index: 1;
-            max-height: calc(100vh - 4rem);
-            overflow-y: auto;
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-        .container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding: 2.5rem;
-        }
-
-        .header-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
-            color: var(--white);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 2.2rem;
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-        }
-
-        .header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 0.75rem;
-        }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 650px;
-            margin: 0 auto 1.5rem auto;
-        }
-
-        .status-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .indicator {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--primary-dark);
-            background: rgba(255, 255, 255, 0.5);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .status-connected { color: var(--accent-green); border-color: var(--accent-green); }
-        .status-local { color: #00529B; border-color: #007BFF; }
-        .status-error { color: var(--accent-red); border-color: var(--accent-red); }
-
-        .progress-section { padding: 1.5rem 2rem; margin-bottom: 2rem; }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: rgba(0, 0, 0, 0.05);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
-            transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            border-radius: 5px;
-        }
-
-        .step-content { padding: 2.5rem; margin-bottom: 2rem; }
-
-        .step-header {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .step-icon {
-            width: 60px;
-            height: 60px;
-            min-width: 60px;
-            color: var(--primary-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .step-icon svg { width: 40px; height: 40px; }
-
-
-        .step-title { font-size: 1.6rem; font-weight: 700; color: var(--primary-dark); }
-        .step-subtitle { color: var(--primary-blue); font-size: 0.9rem; font-weight: 600; }
-
-        .question-block {
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .question-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .question-label { display: block; font-size: 1.1rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 1rem; }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid var(--border-color);
-            background-color: rgba(255,255,255,0.7);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.2s ease-in-out;
-            font-family: inherit;
-            color: var(--text-color);
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
-            background-color: var(--white);
-        }
-        .form-textarea { min-height: 120px; resize: vertical; }
-
-        .slider-container { margin: 1.5rem 0; }
-        .slider {
-            width: 100%; height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; outline: none; appearance: none; cursor: pointer;
-        }
-        .slider::-webkit-slider-thumb {
-            appearance: none; width: 22px; height: 22px; background: var(--primary-blue); border-radius: 50%; cursor: pointer; border: 3px solid var(--white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.2s ease;
-        }
-        .slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
-        .slider::-moz-range-thumb {
-            width: 22px; height: 22px; background: var(--primary-blue); border-radius: 50%; cursor: pointer; border: 3px solid var(--white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .slider-value {
-            text-align: center; font-size: 1.5rem; font-weight: 600; color: var(--primary-dark); margin-top: 1rem;
-            background-color: rgba(255,255,255,0.5); display: inline-block; padding: 0.25rem 1rem; border-radius: 8px;
-            min-width: 80px; position: relative; left: 50%; transform: translateX(-50%);
-        }
-
-        .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; }
-        .checkbox-item {
-            display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; cursor: pointer;
-            transition: all 0.2s ease; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.5);
-        }
-        .checkbox-item:hover { border-color: var(--primary-blue); background: rgba(0, 123, 255, 0.05); }
-        .checkbox-item input:checked + label { color: var(--primary-blue); font-weight: 600; }
-        .checkbox-item input[type="checkbox"] {
-            appearance: none; width: 1.3rem; height: 1.3rem; border: 2px solid var(--border-color); border-radius: 4px; cursor: pointer;
-            position: relative; transition: all 0.2s ease; flex-shrink: 0;
-        }
-        .checkbox-item input[type="checkbox"]:checked { background-color: var(--primary-blue); border-color: var(--primary-blue); }
-        .checkbox-item input[type="checkbox"]:checked::before {
-            content: '✔'; color: white; font-size: 0.9rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        }
-        .checkbox-item label { font-size: 0.9rem; cursor: pointer; flex: 1; font-weight: 500; color: var(--text-color); }
-
-        .navigation { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 2rem; }
-
-        .btn {
-            padding: 0.8rem 1.75rem; border: 2px solid transparent; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer;
-            transition: all 0.2s ease-in-out; font-family: inherit; display: inline-flex; align-items: center; gap: 0.5rem;
-            letter-spacing: 0.5px; text-decoration: none;
-        }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
-        .btn-secondary { background: rgba(255,255,255,0.7); color: var(--text-color); border-color: var(--border-color); }
-        .btn-secondary:hover:not(:disabled) { background: var(--white); border-color: var(--primary-dark); color: var(--primary-dark); }
-        .btn-primary { background: linear-gradient(45deg, var(--primary-blue), #0056b3); color: white; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); }
-        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3); }
-        .btn-save { background: var(--accent-teal); color: white; }
-        .btn-save:hover:not(:disabled) { background: #16a085; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26, 188, 156, 0.2); }
-
-        .loading-screen { text-align: center; padding: 4rem; }
-        .ai-analysis-animation { height: 100px; margin: 0 auto 2rem auto; display: flex; justify-content: center; align-items: center; }
-        .dot-pulse { position: relative; width: 10px; height: 10px; border-radius: 5px; background-color: var(--primary-blue); color: var(--primary-blue); box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; animation: dotPulse 1.5s infinite linear; animation-delay: .25s; }
-        .dot-pulse::before, .dot-pulse::after { content: ''; display: inline-block; position: absolute; top: 0; width: 10px; height: 10px; border-radius: 5px; background-color: var(--primary-blue); color: var(--primary-blue); }
-        .dot-pulse::before { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; animation: dotPulseBefore 1.5s infinite linear; animation-delay: 0s; }
-        .dot-pulse::after { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; animation: dotPulseAfter 1.5s infinite linear; animation-delay: .5s; }
-        @keyframes dotPulseBefore { 0% { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; } 30% { box-shadow: 9984px 0 0 2px, 9999px 0 0 -5px, 10014px 0 0 -5px; } 60%, 100% { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; } }
-        @keyframes dotPulse { 0% { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; } 30% { box-shadow: 9984px 0 0 -5px, 9999px 0 0 2px, 10014px 0 0 -5px; } 60%, 100% { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; } }
-        @keyframes dotPulseAfter { 0% { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; } 30% { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 2px; } 60%, 100% { box-shadow: 9984px 0 0 -5px, 9999px 0 0 -5px, 10014px 0 0 -5px; } }
-
-        .results-container { background: transparent; padding: 0; box-shadow: none; border: none; }
-        .results-accordion { display: flex; flex-direction: column; gap: 1rem; }
-        .accordion-item {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-            transition: box-shadow 0.3s ease;
-        }
-        .accordion-item:hover { box-shadow: var(--shadow-md); }
-        .accordion-header {
-            width: 100%; background: transparent; border: none; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; font-size: 1.2rem; font-weight: 700; color: var(--primary-dark); font-family: inherit; text-align: left; gap: 1rem;
-        }
-        .accordion-header .accordion-title-icon { color: var(--primary-blue); width: 24px; height: 24px; flex-shrink: 0; }
-        .accordion-header:hover { background: rgba(255,255,255,0.3); }
-        .accordion-icon {
-            width: 1.5rem; height: 1.5rem; transition: transform 0.3s ease;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23212529'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: center; flex-shrink: 0;
-        }
-        .accordion-item.active .accordion-header { color: var(--primary-blue); }
-        .accordion-item.active .accordion-icon {
-            transform: rotate(180deg);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007BFF'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'/%3E%3C/svg%3E");
-        }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
-        .accordion-content-inner { padding: 0 2rem 2rem 2rem; border-top: 1px solid var(--border-color); color: var(--text-color); }
-
-        .tags-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
-        .tag { background-color: rgba(0, 123, 255, 0.1); color: var(--primary-blue); padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
-        
-        .progress-circle-container {
-            display: flex; flex-direction: column; align-items: center; gap: 0.75rem; margin: 1rem 0 1.5rem 0;
-            background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 8px;
-        }
-        .progress-circle {
-          display: grid; place-content: center; width: 100px; height: 100px; border-radius: 50%;
-          background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(var(--accent-teal) calc(var(--p) * 1%), rgba(0,0,0,0.1) 0);
-          font-size: 1.8rem; font-weight: 700; color: var(--primary-dark);
-        }
-        .progress-circle + span { font-weight: 600; color: var(--text-color); font-size: 0.9rem; text-align: center; }
-
-        .result-list { list-style: none; padding: 0; margin-top: 0.5rem; }
-        .result-list li { padding: 0.25rem 0 0.25rem 1.75rem; color: var(--text-color); position: relative; font-weight: 500; line-height: 1.6; }
-        .result-list li::before {
-            content: "›"; color: var(--primary-blue); font-weight: bold; font-size: 1.5rem; position: absolute; left: 0; top: 50%; transform: translateY(-52%);
-        }
-
-        .highlight-box { background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid; }
-        .hb-perfil { border-color: var(--primary-blue); }
-        .hb-productividad { border-color: var(--accent-red); }
-        .highlight-box strong { color: var(--primary-dark); display: block; margin-bottom: 0.25rem; }
-        .highlight-box.hb-productividad strong { color: var(--accent-red); }
-        
-        .charts-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-top: 1rem; }
-        .chart-container { padding: 1.5rem; border-radius: 8px; background: rgba(255,255,255,0.2); }
-        .chart-container h4 { text-align: center; color: var(--primary-dark); margin-bottom: 1.5rem; font-size: 1.1rem; }
-        @media (min-width: 900px) { .charts-grid { grid-template-columns: 1fr 1fr; } .chart-container.full-width { grid-column: 1 / -1; } }
-
-        .save-indicator {
-            position: fixed; top: 20px; right: 20px; background: var(--primary-dark); color: white; padding: 0.75rem 1.25rem;
-            border-radius: 8px; font-size: 0.9rem; font-weight: 600; opacity: 0; transform: translateY(-20px);
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); z-index: 1000; display: flex; align-items: center; gap: 0.5rem;
-            box-shadow: var(--shadow-md);
-        }
-        .save-indicator.show { opacity: 1; transform: translateY(0); }
-        .hidden { display: none !important; }
-
-        .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);
-            display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem;
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: var(--white); border-radius: 12px; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto;
-            padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-top: 5px solid var(--primary-blue);
-        }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; color: var(--primary-dark); }
-        .modal-header h2 { font-size: 1.5rem; }
-        .close-btn { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--border-color); transition: color 0.2s; }
-        .close-btn:hover { color: var(--text-color); }
-        .pdf-btn { background: #c0392b; color: white; }
-        .pdf-btn:hover:not(:disabled) { background: #e74c3c; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3); }
-
-        @media (max-width: 768px) {
-            body { padding: 1rem; overflow: auto; } .container { margin: 1rem auto; max-height: none; } .header { padding: 1.5rem; } .header h1 { font-size: 1.8rem; }
-            .step-header { flex-direction: column; text-align: center; } .navigation { flex-direction: column; }
-            .status-indicators { flex-direction: column; align-items: stretch; }
-        }
-        @media (max-width: 480px) {
-             .btn { width: 100%; justify-content: center; } .navigation { flex-direction: column-reverse; }
-        }
-    </style>
-<script>
-/**
- * Configuración Simplificada para IAGen Evaluation Tool
- */
-
-// Configuración de la aplicación
-var APP_CONFIG = {
-    version: '1.1.0',
-    name: 'IAGen Evaluation Tool',
-    debug: false,  // Cambiar a true solo para desarrollo
-    
-    // Configuración de análisis de fallback
-    fallbackEnabled: true,
-    retryAttempts: 2,
-    timeoutMs: 30000
-};
-
-// Función de logging simple
-function logMessage(level, message, data) {
-    if (APP_CONFIG.debug || level === 'error') {
-        var timestamp = new Date().toISOString();
-        console[level]('[IAGen-' + level.toUpperCase() + '] ' + timestamp + ' - ' + message, data || '');
-    }
-}
-
-// Función de validación al cargar
-function validateConfiguration() {
-    var results = {
-        app: !!(APP_CONFIG.version && APP_CONFIG.name)
-    };
-    
-    if (APP_CONFIG.debug) {
-        logMessage('info', 'Validación de configuración', results);
-    }
-    
-    return results;
-}
-
-// Auto-validación al cargar
-if (typeof window !== 'undefined') {
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            validateConfiguration();
-            logMessage('info', 'IAGen Evaluation Tool cargado - v' + APP_CONFIG.version);
-        }, 100);
-    });
-    
-    // Exportar configuraciones globalmente
-    window.APP_CONFIG = APP_CONFIG;
-    window.logMessage = logMessage;
-}
-</script>
-<script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.11.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+    </script>
+    <link rel="stylesheet" href="/index.css">
 </head>
-<body>
-    <div class="container">
-        <div class="save-indicator" id="saveIndicator">
-            <span>💾</span>
-            <span>Progreso guardado</span>
-        </div>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col selection:bg-sky-100 selection:text-sky-900">
 
-        <div class="header glass-panel">
-            <div class="header-icon">🧠</div>
-            <h1>Evaluación de Impacto: IAGen</h1>
-            <p>Herramienta de análisis académico para evaluar el potencial impacto de la inteligencia artificial generativa.</p>
-            
-            <div class="status-indicators">
-                <div class="indicator" id="aiIndicator">
-                    <span>🤖</span>
-                    <span id="aiStatus">Verificando IA...</span>
-                </div>
-                <div class="indicator status-local" id="storageIndicator">
-                    <span>💾</span>
-                    <span>Guardado local</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="progress-section glass-panel" id="progressSection">
-            <div class="progress-info">
-                <span>Progreso de la evaluación</span>
-                <span id="progressText">1 de 4</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 25%"></div>
-            </div>
-        </div>
-
-        <div class="step-content glass-panel" id="stepContent"></div>
-
-        <div class="navigation" id="navigationSection">
-            <button class="btn btn-secondary" id="prevBtn" onclick="app.previousStep()" disabled>← Anterior</button>
-            <button class="btn btn-save" id="saveBtn" onclick="app.saveProgress()" style="display: none;">💾 Guardar progreso</button>
-            <button class="btn btn-primary" id="nextBtn" onclick="app.nextStep()">Siguiente →</button>
-        </div>
-
-        <div class="loading-screen hidden glass-panel" id="loadingScreen">
-            <div class="ai-analysis-animation">
-                <div class="dot-pulse"></div>
-            </div>
-            <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">Analizando con inteligencia artificial</h2>
-            <p style="color: var(--text-muted);">Procesando tus respuestas y generando un análisis académico personalizado...</p>
-        </div>
-
-        <div class="results-container hidden" id="resultsContainer"></div>
+    <!-- Toast Notification -->
+    <div id="saveIndicator" role="status" aria-live="polite" class="fixed bottom-6 right-6 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-200 ease-out bg-slate-900 text-white px-4 py-2.5 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2.5">
+        <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span id="toastMessage">Progreso guardado en el navegador</span>
     </div>
 
-    <div class="modal hidden" id="infoModal">
-        <div class="modal-content">
-        <div class="modal-header">
-                <h2>ℹ️ Sobre la herramienta</h2>
-                <button class="close-btn" onclick="app.closeModal('infoModal')">&times;</button>
+    <!-- Top Bar Contract: Strictly 3 zones separated by gap-8 -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200">
+        <div class="max-w-[1360px] mx-auto px-6 h-16 flex items-center justify-between gap-8">
+            <!-- Zone 1: Single text element wordmark -->
+            <a href="#diagnostico" onclick="app.switchView('form'); return false;" class="font-display text-lg font-bold tracking-tight text-slate-900 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-sky-600 rounded">
+                Evaluación IAGen
+            </a>
+
+            <!-- Zone 2: 4 concise single-line text navigation links -->
+            <nav aria-label="Navegación principal" class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
+                <button type="button" id="navDiagnostico" onclick="app.switchView('form')" class="py-1 text-slate-900 border-b-2 border-sky-600 transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    Diagnóstico
+                </button>
+                <button type="button" id="navInforme" onclick="app.switchView('report')" class="py-1 hover:text-slate-900 border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    Informe ejecutivo
+                </button>
+                <button type="button" id="navVisualizacion" onclick="app.switchView('charts')" class="py-1 hover:text-slate-900 border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    Visualización
+                </button>
+                <button type="button" onclick="app.openModal('infoModal')" class="py-1 hover:text-slate-900 border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    Metodología
+                </button>
+            </nav>
+
+            <!-- Zone 3: 1 primary action -->
+            <div class="flex items-center shrink-0">
+                <button type="button" id="headerPrimaryBtn" onclick="app.handlePrimaryHeaderAction()" class="px-4 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
+                    Generar diagnóstico
+                </button>
             </div>
-            <div>
-                <h3 style="color: var(--primary-dark); margin-bottom: 0.5rem;">🎯 ¿En qué consiste esta actividad?</h3>
-                <p style="margin-bottom: 1rem;">Esta herramienta es una evaluación académica interactiva que utiliza inteligencia artificial avanzada para analizar el potencial impacto de la IAGen (inteligencia artificial generativa) en tu vida laboral diaria.</p>
-                
-                <h3 style="color: var(--accent-green); margin: 1rem 0 0.5rem 0;">🤖 ¿Qué hace la IA en esta evaluación?</h3>
-                <ul style="list-style-type: '✓ '; margin-left: 1.5rem; margin-bottom: 1rem; padding-left: 0.5rem; color: var(--text-color);">
-                    <li>Analiza cada una de tus respuestas individuales</li>
-                    <li>Identifica sesgos cognitivos y perspectivas éticas</li>
-                    <li>Genera recomendaciones específicas basadas en tu perfil</li>
-                    <li>Evalúa el realismo de tus expectativas</li>
-                </ul>
-                
-                <h3 style="color: #d35400; margin: 1rem 0 0.5rem 0;">⚠️ Consideraciones importantes</h3>
-                <ul style="list-style-type: '• '; margin-left: 1.5rem; padding-left: 0.5rem; color: var(--text-color);">
-                    <li>Los resultados son orientativos y requieren validación práctica</li>
-                    <li>La evaluación incluye análisis crítico constructivo</li>
-                    <li>Las recomendaciones deben adaptarse a tu realidad específica</li>
-                    <li>El guardado del progreso se realiza en el almacenamiento local de tu navegador.</li>
-                </ul>
+        </div>
+    </header>
 
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-                    <strong>Créditos y autoría:</strong> <a href="https://www.linkedin.com/in/franciscosereno" target="_blank" rel="noopener noreferrer" style="color: var(--primary-blue); text-decoration: none; font-weight: 600;">Francisco Sereño (LinkedIn)</a><br>
-                    <strong>Licenciamiento:</strong> Este recurso se distribuye bajo la licencia Creative Commons Attribution 4.0 International (CC BY 4.0).
+    <!-- Main Workspace Viewport (1440px desktop baseline) -->
+    <main class="flex-1 max-w-[1360px] w-full mx-auto px-6 py-8 md:py-10">
+
+        <!-- Workspace Editorial Header & Utility Toolbar -->
+        <section class="pb-8 mb-8 border-b border-slate-200 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            <div class="max-w-3xl">
+                <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2.5">
+                    <span>Diagnóstico académico y profesional</span>
+                    <span aria-hidden="true">·</span>
+                    <span id="aiStatusText">Verificando motor de análisis</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Almacenamiento local privado</span>
+                </div>
+                <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">
+                    Evaluación de impacto: IAGen en el día a día
+                </h1>
+                <p class="mt-2.5 text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
+                    Instrumento de análisis crítico para dimensionar oportunidades de automatización, brechas de competencias y riesgos éticos en la adopción de inteligencia artificial generativa.
                 </p>
+            </div>
 
+            <!-- Workspace Secondary Actions Toolbar -->
+            <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+                <button type="button" onclick="app.loadSampleCase()" class="px-3.5 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    Cargar caso de ejemplo
+                </button>
+                <button type="button" id="saveBtn" onclick="app.saveProgress(true)" class="px-3.5 py-2 text-xs font-medium text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer hidden">
+                    Guardar cambios
+                </button>
+                <button type="button" onclick="app.requestRestart()" class="px-3.5 py-2 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    Reiniciar
+                </button>
+            </div>
+        </section>
+
+        <!-- Two-Zone Workspace Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Left Column: Navigation Rail & Live Profile Telemetry (4 cols) -->
+            <aside class="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+
+                <!-- Dimension Stepper Panel -->
+                <div id="progressSection" class="bg-white border border-slate-200 rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold text-slate-900">Progreso del cuestionario</span>
+                        <span id="progressText" class="text-xs font-mono-tabular font-medium text-slate-600">01 / 04</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mb-6">
+                        <div id="progressFill" class="h-full bg-sky-600 transition-all duration-200 ease-out" style="width: 25%"></div>
+                    </div>
+
+                    <nav aria-label="Dimensiones de evaluación" id="stepRail" class="divide-y divide-slate-100">
+                        <!-- Dynamically populated by index.tsx -->
+                    </nav>
+                </div>
+
+                <!-- Live Profile Synthesis Panel -->
+                <div class="bg-white border border-slate-200 rounded-xl p-6">
+                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+                        <h2 class="font-display text-sm font-semibold text-slate-900">Síntesis de parámetros</h2>
+                        <span id="completionCounter" class="text-xs font-mono-tabular text-slate-500">0/14 respuestas</span>
+                    </div>
+                    <dl id="liveTelemetry" class="space-y-3 text-xs">
+                        <!-- Dynamically populated by index.tsx -->
+                    </dl>
+                </div>
+            </aside>
+
+            <!-- Right Column: Interactive Stage (8 cols) -->
+            <div class="lg:col-span-8">
+
+                <!-- Questionnaire View -->
+                <div id="questionnaireWrapper" class="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 lg:p-10">
+                    <div id="stepContent"></div>
+
+                    <!-- Step Footer Navigation -->
+                    <div id="navigationSection" class="mt-10 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <button type="button" id="prevBtn" onclick="app.previousStep()" disabled class="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors disabled:opacity-40 disabled:pointer-events-none whitespace-nowrap shrink-0 cursor-pointer">
+                            ← Dimensión anterior
+                        </button>
+
+                        <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                            <button type="button" onclick="app.saveProgress(true)" class="px-4 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                                Guardar borrador
+                            </button>
+                            <button type="button" id="nextBtn" onclick="app.nextStep()" class="w-full sm:w-auto px-6 py-2.5 text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                                Siguiente dimensión →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Analysis View -->
+                <div id="loadingScreen" class="hidden bg-white border border-slate-200 rounded-xl p-10 sm:p-14 text-center">
+                    <div class="w-12 h-12 mx-auto mb-6 rounded-full border-2 border-slate-200 border-t-sky-600 animate-spin"></div>
+                    <h2 class="font-display text-xl font-bold text-slate-900 mb-2">
+                        Procesando diagnóstico académico y profesional
+                    </h2>
+                    <p class="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+                        Contrastando la distribución de tareas, expectativas de productividad y barreras institucionales para estructurar el informe ejecutivo.
+                    </p>
+                    <div class="mt-8 max-w-md mx-auto space-y-3 text-left">
+                        <div class="h-3 bg-slate-100 rounded w-3/4 animate-pulse"></div>
+                        <div class="h-3 bg-slate-100 rounded w-full animate-pulse"></div>
+                        <div class="h-3 bg-slate-100 rounded w-5/6 animate-pulse"></div>
+                    </div>
+                </div>
+
+                <!-- Executive Report & Analytics View -->
+                <div id="resultsContainer" class="hidden space-y-8"></div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Quiet Academic Footer -->
+    <footer class="mt-16 border-t border-slate-200 bg-white">
+        <div class="max-w-[1360px] mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="font-medium text-slate-700">Evaluación de impacto: IAGen</span>
+                <span aria-hidden="true">·</span>
+                <span>Autor: <a href="https://www.linkedin.com/in/franciscosereno" target="_blank" rel="noopener noreferrer" class="text-slate-700 hover:text-sky-600 underline underline-offset-2">Francisco Sereño</a></span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <button type="button" onclick="app.openModal('infoModal')" class="hover:text-slate-900 transition-colors cursor-pointer">
+                    Nota metodológica y licenciamiento
+                </button>
+                <span aria-hidden="true">·</span>
+                <span>CC BY-NC 4.0 / GPL v3.0</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Methodology & Credits Modal -->
+    <div id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" class="modal hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-xl">
+            <div class="flex items-start justify-between gap-4 pb-4 mb-6 border-b border-slate-200">
+                <div>
+                    <div class="text-xs text-slate-500 mb-1">Documentación del instrumento</div>
+                    <h2 id="infoModalTitle" class="font-display text-xl font-bold text-slate-900">
+                        Marco metodológico y alcance de la evaluación
+                    </h2>
+                </div>
+                <button type="button" onclick="app.closeModal('infoModal')" aria-label="Cerrar ventana" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="space-y-6 text-sm text-slate-600 leading-relaxed">
+                <div>
+                    <h3 class="font-display text-sm font-semibold text-slate-900 mb-1.5">Propósito formativo y analítico</h3>
+                    <p>
+                        Esta herramienta ha sido diseñada como un instrumento de reflexión crítica para profesionales, investigadores y docentes. Su objetivo es evaluar cómo la inteligencia artificial generativa (IAGen) interactúa con las tareas cotidianas, diferenciando entre la automatización operativa y el trabajo intelectual o creativo indelegable.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                        <h4 class="font-display text-xs font-semibold text-slate-900 mb-2">Criterios que evalúa el modelo</h4>
+                        <ul class="space-y-1.5 text-xs text-slate-600">
+                            <li>· Coherencia entre el perfil laboral y las herramientas elegidas</li>
+                            <li>· Detección de posibles sobrestimaciones de productividad</li>
+                            <li>· Identificación de riesgos éticos y de dependencia cognitiva</li>
+                            <li>· Recomendaciones escalonadas a corto y mediano plazo</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                        <h4 class="font-display text-xs font-semibold text-slate-900 mb-2">Privacidad y persistencia</h4>
+                        <ul class="space-y-1.5 text-xs text-slate-600">
+                            <li>· Las respuestas se almacenan en el navegador (<code class="font-mono-tabular">localStorage</code>)</li>
+                            <li>· Los resultados son orientativos y requieren validación práctica</li>
+                            <li>· Incluye modo de respaldo local si no hay conexión a la API</li>
+                            <li>· Exportación directa a PDF sin servidores intermedios</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-200 text-xs text-slate-500 space-y-1.5">
+                    <p>
+                        <strong class="text-slate-800">Créditos y autoría:</strong>
+                        <a href="https://www.linkedin.com/in/franciscosereno" target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:text-sky-700 font-medium underline underline-offset-2">Francisco Sereño (LinkedIn)</a>
+                        — Profesor, doctor (c) en Educación y Sociedad, Universitat de Barcelona.
+                    </p>
+                    <p>
+                        <strong class="text-slate-800">Licenciamiento:</strong>
+                        Código fuente bajo licencia GNU General Public License v3.0 (GPL-3.0) · Contenido didáctico bajo Creative Commons Atribución-NoComercial 4.0 Internacional (CC BY-NC 4.0).
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-200 flex justify-end">
+                <button type="button" onclick="app.closeModal('infoModal')" class="px-4 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Confirmation Modal -->
+    <div id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle" class="modal hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-xl max-w-md w-full p-6 shadow-xl">
+            <h2 id="confirmModalTitle" class="font-display text-lg font-bold text-slate-900 mb-2">
+                ¿Reiniciar el diagnóstico actual?
+            </h2>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                Se borrarán las respuestas registradas y el análisis generado en esta sesión para comenzar una evaluación desde cero.
+            </p>
+            <div class="flex items-center justify-end gap-3">
+                <button type="button" onclick="app.closeModal('confirmModal')" class="px-4 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors cursor-pointer">
+                    Cancelar
+                </button>
+                <button type="button" onclick="app.confirmRestart()" class="px-4 py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors cursor-pointer">
+                    Sí, reiniciar evaluación
+                </button>
             </div>
         </div>
     </div>
@@ -529,7 +298,6 @@ if (typeof window !== 'undefined') {
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.autotable.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <script type="module" src="index.tsx"></script>
-<script type="module" src="/index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
 </body>
 </html>
