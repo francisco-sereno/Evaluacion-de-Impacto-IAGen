@@ -2721,21 +2721,27 @@ const app = {
             }
 
             doc.setDrawColor('#E2E8F0');
-            doc.line(margin, pageHeight - 28, margin + contentWidth, pageHeight - 28);
-            doc.setFontSize(8.5);
+            doc.line(margin, pageHeight - 30, margin + contentWidth, pageHeight - 30);
+            doc.setFontSize(8.2);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor('#0F172A');
             doc.text(
-                'Autoría del instrumento: Francisco Sereño — Profesor, doctor (c) en Educación y Sociedad, Universitat de Barcelona',
+                'Autoría: Francisco Sereño Ahumada — Líder del Área de Tecnologías Educativas e IA, VTI, Universidad de Chile',
                 margin,
-                pageHeight - 22
+                pageHeight - 24
             );
             doc.setFont('helvetica', 'normal');
+            doc.setTextColor('#475569');
+            doc.text(
+                'Doctorando (PhDc) en Educación y Sociedad y máster (Universidad de Barcelona) · Magíster en Pedagogía Universitaria y profesor (UMCE)',
+                margin,
+                pageHeight - 19
+            );
             doc.setTextColor('#64748B');
             doc.text(
-                'Perfil profesional: https://www.linkedin.com/in/franciscosereno  ·  Licencia de contenido: CC BY-NC 4.0 Internacional',
+                'Portafolio: https://franciscosereno.cl · LinkedIn: linkedin.com/in/franciscosereno · Licencia: CC BY-NC-SA 4.0 Internacional',
                 margin,
-                pageHeight - 17
+                pageHeight - 14
             );
 
             // =========================================================================
@@ -3013,7 +3019,7 @@ const app = {
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor('#64748B');
                 doc.text(
-                    `Evaluación IAGen · Autor: Francisco Sereño (linkedin.com/in/franciscosereno)`,
+                    `Evaluación IAGen · Autor: Francisco Sereño (VTI, Universidad de Chile · linkedin.com/in/franciscosereno)`,
                     margin,
                     pageHeight - 9
                 );

@@ -6,9 +6,9 @@
 [![Tipografía](https://img.shields.io/badge/UI%20%2F%20UX-IBM%20Plex%20Sans%20%2B%20Mono-163B73?style=for-the-badge)](#sistema-de-diseño-y-experiencia-de-usuario-uxui)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Licencia de código: GPL v3](https://img.shields.io/badge/c%C3%B3digo-GPL%20v3.0-198038?style=for-the-badge&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0)
-[![Licencia de contenido: CC BY-NC 4.0](https://img.shields.io/badge/contenido-CC%20BY--NC%204.0-0072C3?style=for-the-badge&logo=creativecommons&logoColor=white)](https://creativecommons.org/licenses/by-nc/4.0/)
-[![Autor en LinkedIn](https://img.shields.io/badge/autor-Francisco%20Sere%C3%B1o-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/franciscosereno)
+[![Licencia: CC BY-NC-SA 4.0](https://img.shields.io/badge/licencia-CC%20BY--NC--SA%204.0-0072C3?style=for-the-badge&logo=creativecommons&logoColor=white)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Portafolio Oficial](https://img.shields.io/badge/Portafolio%20Oficial-franciscosereno.cl-0284c7?style=for-the-badge&logo=safari&logoColor=white)](https://franciscosereno.cl)
+[![Autor en LinkedIn](https://img.shields.io/badge/LinkedIn-Francisco%20Sere%C3%B1o-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/franciscosereno)
 
 Instrumento interactivo de análisis académico, institucional y profesional diseñado para diagnosticar, proyectar y evaluar de manera crítica el impacto de la **inteligencia artificial generativa (IAGen)** en el quehacer laboral cotidiano.
 
@@ -165,14 +165,21 @@ Generación instantánea en cliente mediante **jsPDF** y **jsPDF-AutoTable** de 
 
 ---
 
-## Créditos y autoría
+## 📄 Créditos, autoría y licencia
 
-- **Autor**: **Francisco Sereño** — Profesor, doctor (c) en Educación y Sociedad, Universitat de Barcelona.
-- **Perfil profesional**: [![LinkedIn](https://img.shields.io/badge/LinkedIn-Francisco%20Sere%C3%B1o-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/franciscosereno) (`https://www.linkedin.com/in/franciscosereno`)
+Este proyecto fue ideado, investigado, diseñado y desarrollado íntegramente por:
 
----
+**Francisco Sereño Ahumada**  
+*Líder del Área de Tecnologías Educativas e Inteligencia Artificial — Vicerrectoría de Tecnologías de la Información (VTI), Universidad de Chile*  
+*Doctorando (PhDc) en Educación y Sociedad y máster en Entornos de Enseñanza y Aprendizaje Mediados por Tecnologías Digitales (Universidad de Barcelona) · Magíster en Pedagogía Universitaria y profesor (UMCE)*
 
-## Licenciamiento
+Especialista en la intersección entre educación, tecnología digital e inteligencia artificial aplicada a la educación superior, con foco en innovación tecnopedagógica, alfabetización algorítmica, diseño instruccional asistido por IA generativa y gobernanza ética de sistemas algorítmicos.
 
-- **Código fuente**: distribuido bajo la licencia **GNU General Public License v3.0 (GPL-3.0)**.
-- **Contenido didáctico, estructura diagnóstica y marco metodológico**: distribuido bajo la licencia **Creative Commons Atribución-NoComercial 4.0 Internacional (CC BY-NC 4.0)**.
+[![Portafolio Oficial](https://img.shields.io/badge/Portafolio%20Oficial-franciscosereno.cl-0284c7?style=for-the-badge&logo=safari&logoColor=white)](https://franciscosereno.cl)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Francisco%20Sere%C3%B1o-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/franciscosereno)
+[![GitHub](https://img.shields.io/badge/GitHub-@francisco--sereno-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/francisco-sereno)
+
+### Licencia de uso
+
+Este material educativo y su código fuente se distribuyen bajo una licencia **Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)**.  
+Puede ser compartido, estudiado y adaptado para fines educativos y no comerciales, otorgando siempre el crédito correspondiente al autor original (**Francisco Sereño**) y manteniendo la misma licencia en las obras derivadas.
