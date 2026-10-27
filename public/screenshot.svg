@@ -1,165 +1,268 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 780" width="1280" height="780" role="img" aria-label="Captura de pantalla del espacio de trabajo e Inspector diagnóstico en vivo con tooltips OIT y CEPAL">
   <defs>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap');
-      .font-display { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
-      .font-sans { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
-      .font-mono { font-family: 'IBM Plex Mono', monospace; }
+      .sans { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .mono { font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
     </style>
+    <filter id="tooltipShadow" x="-10%" y="-10%" width="125%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#091E3A" flood-opacity="0.28" />
+    </filter>
+    <filter id="cardShadow" x="-2%" y="-2%" width="104%" height="106%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#0F2C59" flood-opacity="0.05" />
+    </filter>
   </defs>
 
-  <!-- Canvas Background -->
-  <rect width="1280" height="800" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+  <!-- Application Canvas Background (#F4F6F9) -->
+  <rect width="1280" height="780" fill="#F4F6F9" />
 
-  <!-- Top Bar (3-Zone Contract) -->
-  <rect x="0" y="0" width="1280" height="60" fill="#FFFFFF"/>
-  <line x1="0" y1="60" x2="1280" y2="60" stroke="#E2E8F0" stroke-width="1"/>
+  <!-- Top Institutional Navigation Bar (Cobalt Navy #0F2C59) -->
+  <rect width="1280" height="54" fill="#0F2C59" />
+  <line x1="0" y1="54" x2="1280" y2="54" stroke="#1E498A" stroke-width="1" />
 
-  <text x="64" y="36" class="font-display" font-size="17" font-weight="700" fill="#0F172A">Evaluación IAGen</text>
+  <!-- Brand Wordmark -->
+  <rect x="32" y="15" width="24" height="24" rx="2" fill="#1E498A" stroke="#4589FF" stroke-width="1" />
+  <path d="M38 27h12M44 21v12" stroke="#78A9FF" stroke-width="2" stroke-linecap="round" />
+  <text x="66" y="32" fill="#FFFFFF" class="sans" font-size="14" font-weight="600">Evaluación de impacto · IAGen</text>
+  <rect x="274" y="18" width="96" height="18" rx="2" fill="#163B73" stroke="#2E5B9E" stroke-width="1" />
+  <text x="322" y="30" text-anchor="middle" fill="#A6C8FF" class="mono" font-size="9.5" font-weight="600">OIT · CEPAL 2026</text>
 
-  <!-- Nav Links -->
-  <g class="font-sans" font-size="13.5" font-weight="500">
-    <text x="480" y="36" fill="#0F172A" font-weight="600">Diagnóstico</text>
-    <line x1="480" y1="45" x2="558" y2="45" stroke="#0284C7" stroke-width="2"/>
-    <text x="590" y="36" fill="#475569">Informe ejecutivo</text>
-    <text x="732" y="36" fill="#475569">Visualización</text>
-    <text x="846" y="36" fill="#475569">Metodología</text>
+  <!-- Navigation Links -->
+  <text x="418" y="32" fill="#FFFFFF" class="sans" font-size="12" font-weight="600">01. Cuestionario guiado</text>
+  <line x1="414" y1="53" x2="558" y2="53" stroke="#78A9FF" stroke-width="2.5" />
+  <text x="582" y="32" fill="#D0E2FF" class="sans" font-size="12" font-weight="500">02. Informe ejecutivo</text>
+  <text x="724" y="32" fill="#D0E2FF" class="sans" font-size="12" font-weight="500">03. Radar multidimensional</text>
+  <text x="902" y="32" fill="#D0E2FF" class="sans" font-size="12" font-weight="500">04. Marco metodológico</text>
+
+  <!-- Primary Action CTA -->
+  <rect x="1096" y="12" width="152" height="30" rx="2" fill="#0F62FE" stroke="#4589FF" stroke-width="1" />
+  <text x="1172" y="31" text-anchor="middle" fill="#FFFFFF" class="sans" font-size="11.5" font-weight="600">Emitir diagnóstico →</text>
+
+  <!-- Technical Masthead & 4-Module Stepper Container -->
+  <rect x="32" y="70" width="1216" height="176" fill="#FFFFFF" stroke="#D5DCE6" stroke-width="1" filter="url(#cardShadow)" />
+  <text x="52" y="92" fill="#0F62FE" class="mono" font-size="10" font-weight="600">INSTRUMENTO DETERMINISTA DE EVALUACIÓN · MARCO OIT / CEPAL / STANFORD / BCG (2025-2026)</text>
+  <text x="52" y="116" fill="#0F2C59" class="sans" font-size="20" font-weight="600">Evaluación de impacto de la inteligencia artificial generativa en el día a día</text>
+  <rect x="1044" y="82" width="184" height="28" rx="2" fill="#EDF5FF" stroke="#D0E2FF" stroke-width="1" />
+  <circle cx="1058" cy="96" r="3.5" fill="#198038" />
+  <text x="1068" y="100" fill="#0F2C59" class="mono" font-size="10" font-weight="600">Autoguardado local activo</text>
+  <line x1="32" y1="132" x2="1248" y2="132" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- 4-Column Telemetry Strip -->
+  <rect x="33" y="133" width="1214" height="50" fill="#F8FAFC" />
+  <line x1="336" y1="133" x2="336" y2="183" stroke="#E2E8F0" stroke-width="1" />
+  <line x1="640" y1="133" x2="640" y2="183" stroke="#E2E8F0" stroke-width="1" />
+  <line x1="944" y1="133" x2="944" y2="183" stroke="#E2E8F0" stroke-width="1" />
+  <line x1="32" y1="183" x2="1248" y2="183" stroke="#D5DCE6" stroke-width="1" />
+
+  <text x="52" y="151" fill="#64748B" class="mono" font-size="9.5" font-weight="500">MÓDULO ACTIVO</text>
+  <text x="52" y="170" fill="#0F2C59" class="mono" font-size="12" font-weight="600">02 / 04 · Análisis de tareas y procesos</text>
+
+  <text x="354" y="151" fill="#64748B" class="mono" font-size="9.5" font-weight="500">PROGRESO DE CAPTURA</text>
+  <text x="354" y="170" fill="#0F2C59" class="mono" font-size="12" font-weight="600">11 / 13 criterios completados</text>
+  <text x="622" y="170" text-anchor="end" fill="#0F62FE" class="mono" font-size="11.5" font-weight="700">85%</text>
+
+  <text x="658" y="151" fill="#64748B" class="mono" font-size="9.5" font-weight="500">PERFIL PRELIMINAR (ILIA / OIT)</text>
+  <text x="658" y="170" fill="#0F2C59" class="sans" font-size="12" font-weight="600">Adoptante sistemático · Aumentación alta</text>
+
+  <text x="962" y="151" fill="#64748B" class="mono" font-size="9.5" font-weight="500">ÍNDICE HEURÍSTICO EN VIVO</text>
+  <text x="962" y="170" fill="#0F62FE" class="mono" font-size="12" font-weight="700">78 / 100 pts · ~5.4 h/sem netas</text>
+
+  <!-- 4-Module Stepper Row -->
+  <!-- Step 1 -->
+  <rect x="33" y="184" width="303" height="61" fill="#FFFFFF" />
+  <text x="52" y="203" fill="#198038" class="mono" font-size="10" font-weight="600">MÓDULO 01 · COMPLETADO</text>
+  <text x="318" y="203" text-anchor="end" fill="#198038" class="mono" font-size="10" font-weight="600">3/3 ✓</text>
+  <text x="52" y="221" fill="#0F2C59" class="sans" font-size="12" font-weight="600">Perfil profesional y contexto</text>
+  <rect x="52" y="232" width="266" height="4" fill="#198038" />
+  <line x1="336" y1="184" x2="336" y2="246" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Step 2 (Active) -->
+  <rect x="337" y="184" width="303" height="61" fill="#EDF5FF" />
+  <text x="354" y="203" fill="#0F62FE" class="mono" font-size="10" font-weight="600">MÓDULO 02 · EN CURSO</text>
+  <text x="622" y="203" text-anchor="end" fill="#0F62FE" class="mono" font-size="10" font-weight="600">3/3 ✓</text>
+  <text x="354" y="221" fill="#0F2C59" class="sans" font-size="12" font-weight="600">Análisis de tareas y procesos</text>
+  <rect x="354" y="232" width="268" height="4" fill="#0F62FE" />
+  <line x1="640" y1="184" x2="640" y2="246" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Step 3 -->
+  <rect x="641" y="184" width="303" height="61" fill="#FFFFFF" />
+  <text x="658" y="203" fill="#198038" class="mono" font-size="10" font-weight="600">MÓDULO 03 · COMPLETADO</text>
+  <text x="926" y="203" text-anchor="end" fill="#198038" class="mono" font-size="10" font-weight="600">3/3 ✓</text>
+  <text x="658" y="221" fill="#0F2C59" class="sans" font-size="12" font-weight="600">Escenarios de implementación</text>
+  <rect x="658" y="232" width="268" height="4" fill="#198038" />
+  <line x1="944" y1="184" x2="944" y2="246" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Step 4 -->
+  <rect x="945" y="184" width="302" height="61" fill="#FFFFFF" />
+  <text x="962" y="203" fill="#0F62FE" class="mono" font-size="10" font-weight="600">MÓDULO 04 · EN PROGRESO</text>
+  <text x="1230" y="203" text-anchor="end" fill="#0F62FE" class="mono" font-size="10" font-weight="600">2/4</text>
+  <text x="962" y="221" fill="#0F2C59" class="sans" font-size="12" font-weight="600">Proyección de impactos y brechas</text>
+  <rect x="962" y="232" width="268" height="4" fill="#E2E8F0" />
+  <rect x="962" y="232" width="134" height="4" fill="#0F62FE" />
+
+  <!-- LEFT MAIN STAGE (Col-Span-8): Questionnaire Form & Interactive Controls -->
+  <rect x="32" y="262" width="792" height="464" fill="#FFFFFF" stroke="#D5DCE6" stroke-width="1" filter="url(#cardShadow)" />
+  <rect x="33" y="263" width="790" height="40" fill="#F8FAFC" />
+  <line x1="32" y1="303" x2="824" y2="303" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Criterion Quick-Jump Pills -->
+  <text x="52" y="287" fill="#64748B" class="mono" font-size="10" font-weight="600">IR AL CRITERIO:</text>
+  <rect x="150" y="272" width="54" height="22" rx="2" fill="#EDF5FF" stroke="#0F62FE" stroke-width="1" />
+  <text x="177" y="287" text-anchor="middle" fill="#0F62FE" class="mono" font-size="10" font-weight="600">02.1 ✓</text>
+  <rect x="212" y="272" width="54" height="22" rx="2" fill="#EDF5FF" stroke="#0F62FE" stroke-width="1" />
+  <text x="239" y="287" text-anchor="middle" fill="#0F62FE" class="mono" font-size="10" font-weight="600">02.2 ✓</text>
+  <rect x="274" y="272" width="54" height="22" rx="2" fill="#EDF5FF" stroke="#0F62FE" stroke-width="1" />
+  <text x="301" y="287" text-anchor="middle" fill="#0F62FE" class="mono" font-size="10" font-weight="600">02.3 ✓</text>
+  <text x="804" y="287" text-anchor="end" fill="#0F2C59" class="mono" font-size="10" font-weight="600">MÓDULO 02 · CARGA OPERATIVA</text>
+
+  <!-- Question 02.1: Sliders for Routine vs Creative Tasks -->
+  <text x="52" y="332" fill="#0F62FE" class="mono" font-size="10" font-weight="600">CRITERIO 02.1 · COMPOSICIÓN DE LA JORNADA LABORAL (GRADIENTE OIT)</text>
+  <text x="52" y="352" fill="#0F2C59" class="sans" font-size="14" font-weight="600">Distribución porcentual entre labores codificables/rutinarias y tareas analíticas o creativas</text>
+
+  <!-- Slider Card 1 -->
+  <rect x="52" y="368" width="354" height="86" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1" />
+  <text x="68" y="392" fill="#0F2C59" class="sans" font-size="12" font-weight="600">Tareas rutinarias y repetitivas</text>
+  <text x="390" y="392" text-anchor="end" fill="#0F62FE" class="mono" font-size="15" font-weight="700">45%</text>
+  <rect x="68" y="408" width="322" height="6" rx="3" fill="#CBD5E1" />
+  <rect x="68" y="408" width="145" height="6" rx="3" fill="#0F62FE" />
+  <circle cx="213" cy="411" r="7" fill="#0F2C59" stroke="#FFFFFF" stroke-width="2" />
+  <text x="68" y="438" fill="#64748B" class="sans" font-size="10.5">Procesamiento administrativo, formato y síntesis estándar.</text>
+
+  <!-- Slider Card 2 -->
+  <rect x="422" y="368" width="382" height="86" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1" />
+  <text x="438" y="392" fill="#0F2C59" class="sans" font-size="12" font-weight="600">Tareas creativas, críticas y de juicio experto</text>
+  <text x="788" y="392" text-anchor="end" fill="#198038" class="mono" font-size="15" font-weight="700">65%</text>
+  <rect x="438" y="408" width="350" height="6" rx="3" fill="#CBD5E1" />
+  <rect x="438" y="408" width="227" height="6" rx="3" fill="#198038" />
+  <circle cx="665" cy="411" r="7" fill="#0F2C59" stroke="#FFFFFF" stroke-width="2" />
+  <text x="438" y="438" fill="#64748B" class="sans" font-size="10.5">Diseño metodológico, evaluación ética y deliberación.</text>
+
+  <!-- Question 02.2: Weekly Document Hours -->
+  <line x1="52" y1="474" x2="804" y2="474" stroke="#E2E8F0" stroke-width="1" />
+  <text x="52" y="498" fill="#0F62FE" class="mono" font-size="10" font-weight="600">CRITERIO 02.2 · INTENSIDAD DE PRODUCCIÓN TEXTUAL Y DOCUMENTAL</text>
+  <text x="52" y="518" fill="#0F2C59" class="sans" font-size="13.5" font-weight="600">Tiempo semanal dedicado a redacción de informes, correos, sílabos o documentación técnica</text>
+
+  <rect x="52" y="532" width="178" height="44" rx="2" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" />
+  <text x="66" y="558" fill="#475569" class="sans" font-size="11.5">Menos de 5 horas</text>
+
+  <rect x="242" y="532" width="184" height="44" rx="2" fill="#EDF5FF" stroke="#0F62FE" stroke-width="1.5" />
+  <circle cx="258" cy="554" r="4" fill="#0F62FE" />
+  <text x="270" y="558" fill="#0F2C59" class="sans" font-size="11.5" font-weight="600">Entre 5 y 10 horas</text>
+
+  <rect x="438" y="532" width="178" height="44" rx="2" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" />
+  <text x="452" y="558" fill="#475569" class="sans" font-size="11.5">Entre 10 y 20 horas</text>
+
+  <rect x="628" y="532" width="176" height="44" rx="2" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" />
+  <text x="642" y="558" fill="#475569" class="sans" font-size="11.5">Más de 20 horas</text>
+
+  <!-- Question 02.3: Operational Bottlenecks -->
+  <line x1="52" y1="594" x2="804" y2="594" stroke="#E2E8F0" stroke-width="1" />
+  <text x="52" y="618" fill="#0F62FE" class="mono" font-size="10" font-weight="600">CRITERIO 02.3 · CUELLOS DE BOTELLA OPERATIVOS DETECTADOS</text>
+  <rect x="52" y="630" width="752" height="42" rx="2" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="68" y="655" fill="#1E293B" class="sans" font-size="11.5">Sistematización de literatura académica, retroalimentación individualizada de rúbricas y síntesis de actas.</text>
+
+  <!-- Bottom Action Bar of Left Stage -->
+  <line x1="32" y1="684" x2="824" y2="684" stroke="#E2E8F0" stroke-width="1" />
+  <rect x="52" y="692" width="128" height="26" rx="2" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="116" y="709" text-anchor="middle" fill="#0F2C59" class="sans" font-size="11" font-weight="600">← Módulo anterior</text>
+  <rect x="656" y="692" width="148" height="26" rx="2" fill="#0F2C59" />
+  <text x="730" y="709" text-anchor="middle" fill="#FFFFFF" class="sans" font-size="11" font-weight="600">Siguiente módulo →</text>
+
+  <!-- RIGHT INSPECTOR RAIL (Col-Span-4): Inspector diagnóstico en vivo -->
+  <rect x="844" y="262" width="404" height="464" fill="#FFFFFF" stroke="#D5DCE6" stroke-width="1" filter="url(#cardShadow)" />
+
+  <!-- Institutional Azure Header Strip (#EDF5FF instead of black) -->
+  <rect x="845" y="263" width="402" height="50" fill="#EDF5FF" />
+  <circle cx="864" cy="281" r="4" fill="#0F62FE" />
+  <text x="876" y="285" fill="#0F2C59" class="sans" font-size="11.5" font-weight="600">INSPECTOR DIAGNÓSTICO EN VIVO</text>
+  <text x="1230" y="285" text-anchor="end" fill="#0043CE" class="mono" font-size="10.5" font-weight="600">Módulo 02 / 04</text>
+  <text x="864" y="303" fill="#334155" class="sans" font-size="10">Pasa el cursor sobre cada indicador para ver su definición OIT/CEPAL</text>
+  <line x1="844" y1="313" x2="1248" y2="313" stroke="#D0E2FF" stroke-width="1" />
+
+  <!-- Progress Bar inside Inspector -->
+  <rect x="844" y="313" width="404" height="4" fill="#E2E8F0" />
+  <rect x="844" y="313" width="344" height="4" fill="#0F62FE" />
+
+  <!-- Indicator Rows with ⓘ Tooltip Triggers -->
+  <!-- Row 1 -->
+  <text x="864" y="340" fill="#475569" class="sans" font-size="11.5">Sector profesional</text>
+  <circle cx="972" cy="336" r="6.5" fill="#EDF5FF" stroke="#93C5FD" stroke-width="1" />
+  <text x="972" y="340" text-anchor="middle" fill="#0F62FE" class="mono" font-size="9" font-weight="700">i</text>
+  <text x="1228" y="340" text-anchor="end" fill="#0F2C59" class="sans" font-size="11.5" font-weight="600">Educación e investigación</text>
+  <line x1="864" y1="351" x2="1228" y2="351" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Row 2 -->
+  <text x="864" y="372" fill="#475569" class="sans" font-size="11.5">Nivel de experiencia</text>
+  <circle cx="980" cy="368" r="6.5" fill="#EDF5FF" stroke="#93C5FD" stroke-width="1" />
+  <text x="980" y="372" text-anchor="middle" fill="#0F62FE" class="mono" font-size="9" font-weight="700">i</text>
+  <text x="1228" y="372" text-anchor="end" fill="#0F2C59" class="sans" font-size="11.5" font-weight="600">Intermedio (uso regular)</text>
+  <line x1="864" y1="383" x2="1228" y2="383" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Row 3 (Hovered state with active tooltip) -->
+  <rect x="856" y="388" width="380" height="28" rx="2" fill="#F0F7FF" />
+  <text x="864" y="406" fill="#0F2C59" class="sans" font-size="11.5" font-weight="600">Carga rutinaria / crítica</text>
+  <circle cx="1002" cy="402" r="6.5" fill="#0F62FE" />
+  <text x="1002" y="406" text-anchor="middle" fill="#FFFFFF" class="mono" font-size="9" font-weight="700">i</text>
+  <text x="1228" y="406" text-anchor="end" fill="#0F62FE" class="mono" font-size="11.5" font-weight="700">45% · 65%</text>
+  <line x1="864" y1="417" x2="1228" y2="417" stroke="#BFDBFE" stroke-width="1" />
+
+  <!-- Row 4 -->
+  <text x="864" y="438" fill="#475569" class="sans" font-size="11.5">Herramientas / barreras</text>
+  <circle cx="1000" cy="434" r="6.5" fill="#EDF5FF" stroke="#93C5FD" stroke-width="1" />
+  <text x="1000" y="438" text-anchor="middle" fill="#0F62FE" class="mono" font-size="9" font-weight="700">i</text>
+  <text x="1228" y="438" text-anchor="end" fill="#0F2C59" class="mono" font-size="11.5" font-weight="600">4 elegidas · 2 barreras</text>
+  <line x1="864" y1="449" x2="1228" y2="449" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Row 5 -->
+  <text x="864" y="470" fill="#475569" class="sans" font-size="11.5">Horizonte estimado</text>
+  <circle cx="978" cy="466" r="6.5" fill="#EDF5FF" stroke="#93C5FD" stroke-width="1" />
+  <text x="978" y="470" text-anchor="middle" fill="#0F62FE" class="mono" font-size="9" font-weight="700">i</text>
+  <text x="1228" y="470" text-anchor="end" fill="#0F2C59" class="sans" font-size="11.5" font-weight="600">Corto plazo (3-6 meses)</text>
+  <line x1="864" y1="481" x2="1228" y2="481" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Row 6 -->
+  <text x="864" y="502" fill="#475569" class="sans" font-size="11.5">Expectativa declarada</text>
+  <circle cx="990" cy="498" r="6.5" fill="#EDF5FF" stroke="#93C5FD" stroke-width="1" />
+  <text x="990" y="502" text-anchor="middle" fill="#0F62FE" class="mono" font-size="9" font-weight="700">i</text>
+  <text x="1228" y="502" text-anchor="end" fill="#0F62FE" class="mono" font-size="11.5" font-weight="700">+35%</text>
+  <line x1="864" y1="513" x2="1228" y2="513" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Row 7: Model Status -->
+  <text x="864" y="536" fill="#0F2C59" class="sans" font-size="12" font-weight="600">Estado del modelo</text>
+  <circle cx="976" cy="532" r="6.5" fill="#EDF5FF" stroke="#93C5FD" stroke-width="1" />
+  <text x="976" y="536" text-anchor="middle" fill="#0F62FE" class="mono" font-size="9" font-weight="700">i</text>
+  <text x="1228" y="536" text-anchor="end" fill="#198038" class="mono" font-size="12.5" font-weight="700">Listo (78/100)</text>
+
+  <!-- Empirical Sector Reference Box inside Inspector -->
+  <rect x="864" y="554" width="364" height="114" rx="2" fill="#F8FAFC" stroke="#D0E2FF" stroke-width="1" />
+  <text x="878" y="574" fill="#0F62FE" class="mono" font-size="9.5" font-weight="600">REFERENCIA EMPÍRICA DEL SECTOR (OIT / STANFORD)</text>
+  <text x="878" y="593" fill="#334155" class="sans" font-size="10.5">Ahorro empírico de 4.2 a 6.5 h/semana en planificación</text>
+  <text x="878" y="608" fill="#334155" class="sans" font-size="10.5">docente, diseño de materiales y retroalimentación.</text>
+  <line x1="878" y1="620" x2="1214" y2="620" stroke="#E2E8F0" stroke-width="1" />
+  <text x="878" y="640" fill="#475569" class="mono" font-size="10">Rango realista <tspan fill="#0F62FE" font-weight="700">ⓘ</tspan>: <tspan fill="#0F2C59" font-weight="700">20-35%</tspan></text>
+  <text x="1062" y="640" fill="#475569" class="mono" font-size="10">Auditoría humana <tspan fill="#0F62FE" font-weight="700">ⓘ</tspan>: <tspan fill="#0F2C59" font-weight="700">~22%</tspan></text>
+  <text x="878" y="658" fill="#64748B" class="sans" font-size="9.5">Mitigación de alucinaciones y sesgos (Frontera Irregular BCG)</text>
+
+  <!-- Session Utility Buttons inside Inspector -->
+  <rect x="864" y="682" width="176" height="28" rx="2" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" />
+  <text x="952" y="700" text-anchor="middle" fill="#0F2C59" class="sans" font-size="10.5" font-weight="600">Exportar sesión (.json)</text>
+  <rect x="1052" y="682" width="176" height="28" rx="2" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" />
+  <text x="1140" y="700" text-anchor="middle" fill="#475569" class="sans" font-size="10.5" font-weight="500">Importar / Reiniciar</text>
+
+  <!-- FLOATING OIT / CEPAL TOOLTIP POPOVER (Rendered on top of Row 3) -->
+  <g filter="url(#tooltipShadow)">
+    <rect x="774" y="294" width="318" height="90" rx="4" fill="#0F2C59" stroke="#1E498A" stroke-width="1.2" />
+    <!-- Tooltip Caret pointing down to circle at (1002, 402) -->
+    <polygon points="995,384 1009,384 1002,393" fill="#0F2C59" />
+    <text x="790" y="314" fill="#78A9FF" class="mono" font-size="9.5" font-weight="600">GRADIENTE DE EXPOSICIÓN OIT</text>
+    <line x1="790" y1="321" x2="1076" y2="321" stroke="#1E498A" stroke-width="1" />
+    <text x="790" y="339" fill="#F8FAFC" class="sans" font-size="10.5">Proporción entre tareas codificables (susceptibles de</text>
+    <text x="790" y="355" fill="#F8FAFC" class="sans" font-size="10.5">automatización) y tareas de alto contexto humano</text>
+    <text x="790" y="371" fill="#A6C8FF" class="sans" font-size="10.5" font-weight="600">(potencial de aumentación según OIT / CEPAL).</text>
   </g>
 
-  <!-- Primary CTA -->
-  <rect x="1056" y="15" width="160" height="32" rx="7" fill="#0284C7"/>
-  <text x="1136" y="35" text-anchor="middle" class="font-sans" font-size="12" font-weight="600" fill="#FFFFFF">Generar diagnóstico</text>
-
-  <!-- Editorial Workspace Header -->
-  <g transform="translate(64, 92)">
-    <text x="0" y="12" class="font-sans" font-size="11.5" fill="#64748B">Diagnóstico académico y profesional  ·  Motor Gemini 2.5 activo  ·  Almacenamiento local privado</text>
-    <text x="0" y="46" class="font-display" font-size="28" font-weight="700" fill="#0F172A">Evaluación de impacto: IAGen en el día a día</text>
-    <text x="0" y="72" class="font-sans" font-size="13.5" fill="#475569">Instrumento de análisis crítico para dimensionar oportunidades de automatización, brechas de competencias y riesgos éticos.</text>
-
-    <!-- Secondary Toolbar -->
-    <rect x="890" y="42" width="164" height="32" rx="7" fill="#FFFFFF" stroke="#E2E8F0"/>
-    <text x="972" y="62" text-anchor="middle" class="font-sans" font-size="11.5" font-weight="500" fill="#334155">Cargar caso de ejemplo</text>
-
-    <rect x="1064" y="42" width="88" height="32" rx="7" fill="#FFFFFF" stroke="#E2E8F0"/>
-    <text x="1108" y="62" text-anchor="middle" class="font-sans" font-size="11.5" font-weight="500" fill="#475569">Reiniciar</text>
-
-    <line x1="0" y1="98" x2="1152" y2="98" stroke="#E2E8F0" stroke-width="1"/>
-  </g>
-
-  <!-- Two-Zone Workspace Grid -->
-  <g transform="translate(64, 214)">
-
-    <!-- Left Rail (350px) -->
-    <g>
-      <!-- Stepper Card -->
-      <rect x="0" y="0" width="350" height="252" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
-      <text x="24" y="32" class="font-sans" font-size="12" font-weight="600" fill="#0F172A">Progreso del cuestionario</text>
-      <text x="326" y="32" text-anchor="end" class="font-mono" font-size="12" font-weight="500" fill="#475569">01 / 04</text>
-
-      <rect x="24" y="44" width="302" height="6" rx="3" fill="#F1F5F9"/>
-      <rect x="24" y="44" width="76" height="6" rx="3" fill="#0284C7"/>
-
-      <!-- Step 01 Active -->
-      <rect x="16" y="68" width="318" height="38" rx="8" fill="#F0F9FF"/>
-      <text x="28" y="91" class="font-mono" font-size="12" font-weight="600" fill="#0284C7">01.</text>
-      <text x="56" y="91" class="font-sans" font-size="12.5" font-weight="600" fill="#0C4A6E">Perfil profesional</text>
-      <text x="320" y="91" text-anchor="end" class="font-mono" font-size="11" fill="#059669" font-weight="600">3/3</text>
-
-      <!-- Step 02 -->
-      <text x="28" y="133" class="font-mono" font-size="12" fill="#94A3B8">02.</text>
-      <text x="56" y="133" class="font-sans" font-size="12.5" fill="#475569">Análisis de tareas</text>
-      <text x="320" y="133" text-anchor="end" class="font-mono" font-size="11" fill="#94A3B8">2/4</text>
-      <line x1="24" y1="148" x2="326" y2="148" stroke="#F1F5F9"/>
-
-      <!-- Step 03 -->
-      <text x="28" y="173" class="font-mono" font-size="12" fill="#94A3B8">03.</text>
-      <text x="56" y="173" class="font-sans" font-size="12.5" fill="#475569">Escenarios de adopción</text>
-      <text x="320" y="173" text-anchor="end" class="font-mono" font-size="11" fill="#94A3B8">0/3</text>
-      <line x1="24" y1="188" x2="326" y2="188" stroke="#F1F5F9"/>
-
-      <!-- Step 04 -->
-      <text x="28" y="213" class="font-mono" font-size="12" fill="#94A3B8">04.</text>
-      <text x="56" y="213" class="font-sans" font-size="12.5" fill="#475569">Proyección de impactos</text>
-      <text x="320" y="213" text-anchor="end" class="font-mono" font-size="11" fill="#94A3B8">0/4</text>
-
-      <!-- Live Telemetry Card -->
-      <rect x="0" y="272" width="350" height="248" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
-      <text x="24" y="304" class="font-display" font-size="13.5" font-weight="600" fill="#0F172A">Síntesis de parámetros</text>
-      <text x="326" y="304" text-anchor="end" class="font-mono" font-size="11.5" fill="#64748B">5/14 respuestas</text>
-      <line x1="24" y1="318" x2="326" y2="318" stroke="#F1F5F9"/>
-
-      <g class="font-sans" font-size="12">
-        <text x="24" y="344" fill="#64748B">Sector</text>
-        <text x="326" y="344" text-anchor="end" font-weight="500" fill="#0F172A">Educación e investigación</text>
-
-        <text x="24" y="376" fill="#64748B">Experiencia previa</text>
-        <text x="326" y="376" text-anchor="end" font-weight="500" fill="#0F172A">Intermedio</text>
-
-        <text x="24" y="408" fill="#64748B">Carga rutinaria / creativa</text>
-        <text x="326" y="408" text-anchor="end" class="font-mono" font-weight="500" fill="#0F172A">40% · 60%</text>
-
-        <text x="24" y="440" fill="#64748B">Herramientas / barreras</text>
-        <text x="326" y="440" text-anchor="end" class="font-mono" font-weight="500" fill="#0F172A">4 · 3</text>
-
-        <text x="24" y="472" fill="#64748B">Horizonte estimado</text>
-        <text x="326" y="472" text-anchor="end" font-weight="500" fill="#0F172A">3-6 meses</text>
-
-        <text x="24" y="502" fill="#64748B">Mejora proyectada</text>
-        <text x="326" y="502" text-anchor="end" class="font-mono" font-weight="600" fill="#0369A1">+35%</text>
-      </g>
-    </g>
-
-    <!-- Right Interactive Stage (774px) -->
-    <g transform="translate(378, 0)">
-      <rect x="0" y="0" width="774" height="520" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
-
-      <!-- Step Header -->
-      <text x="36" y="38" class="font-mono" font-size="11.5" font-weight="500" fill="#0369A1">Dimensión 01 de 04  ·  3 criterios de evaluación</text>
-      <text x="36" y="66" class="font-display" font-size="21" font-weight="700" fill="#0F172A">01. Perfil profesional y contexto laboral</text>
-      <text x="36" y="90" class="font-sans" font-size="13" fill="#475569">Caracterización del ámbito de desempeño, responsabilidades principales y grado de familiaridad previa con IA.</text>
-      <line x1="36" y1="110" x2="738" y2="110" stroke="#E2E8F0"/>
-
-      <!-- Question 01.1 -->
-      <text x="36" y="140" class="font-display" font-size="14.5" font-weight="600" fill="#0F172A">
-        <tspan class="font-mono" font-size="11.5" fill="#94A3B8">01.1 </tspan>¿En qué sector profesional te desempeñas principalmente?
-      </text>
-
-      <!-- Option Grid -->
-      <rect x="36" y="156" width="344" height="42" rx="8" fill="#F0F9FF" stroke="#0284C7" stroke-width="1.5"/>
-      <text x="52" y="182" class="font-sans" font-size="13" font-weight="600" fill="#082F49">Educación e investigación</text>
-      <circle cx="358" cy="177" r="7" fill="#0284C7"/>
-      <circle cx="358" cy="177" r="2.5" fill="#FFFFFF"/>
-
-      <rect x="394" y="156" width="344" height="42" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
-      <text x="410" y="182" class="font-sans" font-size="13" font-weight="500" fill="#334155">Salud</text>
-      <circle cx="716" cy="177" r="7" fill="none" stroke="#CBD5E1" stroke-width="1.5"/>
-
-      <rect x="36" y="208" width="344" height="42" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
-      <text x="52" y="234" class="font-sans" font-size="13" font-weight="500" fill="#334155">Tecnología</text>
-      <circle cx="358" cy="229" r="7" fill="none" stroke="#CBD5E1" stroke-width="1.5"/>
-
-      <rect x="394" y="208" width="344" height="42" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
-      <text x="410" y="234" class="font-sans" font-size="13" font-weight="500" fill="#334155">Sector público</text>
-      <circle cx="716" cy="229" r="7" fill="none" stroke="#CBD5E1" stroke-width="1.5"/>
-
-      <line x1="36" y1="272" x2="738" y2="272" stroke="#E2E8F0"/>
-
-      <!-- Question 01.2 -->
-      <text x="36" y="302" class="font-display" font-size="14.5" font-weight="600" fill="#0F172A">
-        <tspan class="font-mono" font-size="11.5" fill="#94A3B8">01.2 </tspan>Describe tu rol principal y las tareas que realizas habitualmente
-      </text>
-      <rect x="36" y="318" width="702" height="92" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
-      <text x="52" y="344" class="font-sans" font-size="13" fill="#334155">Docencia universitaria de posgrado, dirección de proyectos de investigación aplicada, revisión</text>
-      <text x="52" y="366" class="font-sans" font-size="13" fill="#334155">sistemática de literatura y elaboración de artículos científicos e informes técnicos.</text>
-
-      <!-- Footer Navigation -->
-      <line x1="36" y1="440" x2="738" y2="440" stroke="#E2E8F0"/>
-      <rect x="36" y="460" width="160" height="38" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
-      <text x="116" y="484" text-anchor="middle" class="font-sans" font-size="12.5" font-weight="500" fill="#94A3B8">← Dimensión anterior</text>
-
-      <rect x="558" y="460" width="180" height="38" rx="8" fill="#0284C7"/>
-      <text x="648" y="484" text-anchor="middle" class="font-sans" font-size="12.5" font-weight="600" fill="#FFFFFF">Siguiente dimensión →</text>
-    </g>
-
-  </g>
+  <!-- Institutional Footer Strip -->
+  <rect x="0" y="742" width="1280" height="38" fill="#FFFFFF" />
+  <line x1="0" y1="742" x2="1280" y2="742" stroke="#D5DCE6" stroke-width="1" />
+  <text x="32" y="765" fill="#475569" class="sans" font-size="11">Autor: <tspan fill="#0F2C59" font-weight="600">Francisco Sereño</tspan> (linkedin.com/in/franciscosereno) · Profesor, doctor (c) en Educación y Sociedad, Universitat de Barcelona</text>
+  <text x="1248" y="765" text-anchor="end" fill="#64748B" class="mono" font-size="10">GPL-3.0 · CC BY-NC 4.0 · 100% Determinista Local</text>
 </svg>

@@ -8,267 +8,278 @@
     <meta property="og:title" content="Evaluación de Impacto: IAGen">
     <meta property="og:description" content="Herramienta de análisis académico para evaluar el potencial impacto de la inteligencia artificial generativa.">
     <meta property="og:type" content="website">
-    <script>
-        var APP_CONFIG = {
-            version: '2.0.0',
-            name: 'IAGen Evaluation Tool',
-            debug: false,
-            fallbackEnabled: true,
-            retryAttempts: 2,
-            timeoutMs: 30000
-        };
-
-        function logMessage(level, message, data) {
-            if (APP_CONFIG.debug || level === 'error') {
-                var timestamp = new Date().toISOString();
-                console[level]('[IAGen-' + level.toUpperCase() + '] ' + timestamp + ' - ' + message, data || '');
-            }
-        }
-
-        if (typeof window !== 'undefined') {
-            window.APP_CONFIG = APP_CONFIG;
-            window.logMessage = logMessage;
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="/config.js"></script>
     <link rel="stylesheet" href="/index.css">
 </head>
-<body class="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col selection:bg-sky-100 selection:text-sky-900">
+<body class="min-h-screen bg-[#F4F6F9] text-[#161616] flex flex-col selection:bg-[#0F62FE]/15 selection:text-[#0043CE]">
 
     <!-- Toast Notification -->
-    <div id="saveIndicator" role="status" aria-live="polite" class="fixed bottom-6 right-6 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-200 ease-out bg-slate-900 text-white px-4 py-2.5 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2.5">
-        <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <div id="saveIndicator" role="status" aria-live="polite" class="fixed bottom-6 right-6 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-150 ease-out bg-[#0F2C59] text-white px-4 py-3 rounded shadow-lg text-xs font-medium flex items-center gap-2.5 border border-[#1E498A]">
+        <svg class="w-4 h-4 text-[#42BE65] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
         <span id="toastMessage">Progreso guardado en el navegador</span>
     </div>
 
-    <!-- Top Bar Contract: Strictly 3 zones separated by gap-8 -->
-    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200">
-        <div class="max-w-[1360px] mx-auto px-6 h-16 flex items-center justify-between gap-8">
+    <!-- Top Bar Contract: Strictly 3 zones separated by gap-8 (Institutional Cobalt Navy instead of black) -->
+    <header class="sticky top-0 z-30 bg-[#0F2C59] text-white border-b border-[#1E498A] shadow-2xs">
+        <div class="max-w-[1400px] mx-auto px-6 h-14 flex items-center justify-between gap-8">
             <!-- Zone 1: Single text element wordmark -->
-            <a href="#diagnostico" onclick="app.switchView('form'); return false;" class="font-display text-lg font-bold tracking-tight text-slate-900 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-sky-600 rounded">
-                Evaluación IAGen
+            <a href="#diagnostico" onclick="app.switchView('form'); return false;" class="font-display text-sm sm:text-base font-semibold tracking-tight text-white whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#78A9FF]">
+                Evaluación de impacto · IAGen
             </a>
 
             <!-- Zone 2: 4 concise single-line text navigation links -->
-            <nav aria-label="Navegación principal" class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
-                <button type="button" id="navDiagnostico" onclick="app.switchView('form')" class="py-1 text-slate-900 border-b-2 border-sky-600 transition-colors whitespace-nowrap shrink-0 cursor-pointer">
-                    Diagnóstico
+            <nav aria-label="Navegación principal" class="hidden md:flex items-center gap-6 h-full text-xs font-medium text-[#D0E2FF]">
+                <button type="button" id="navDiagnostico" onclick="app.switchView('form')" class="h-full px-1 flex items-center text-white border-b-2 border-[#78A9FF] transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    01. Cuestionario guiado
                 </button>
-                <button type="button" id="navInforme" onclick="app.switchView('report')" class="py-1 hover:text-slate-900 border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
-                    Informe ejecutivo
+                <button type="button" id="navInforme" onclick="app.switchView('report')" class="h-full px-1 flex items-center hover:text-white border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    02. Informe ejecutivo
                 </button>
-                <button type="button" id="navVisualizacion" onclick="app.switchView('charts')" class="py-1 hover:text-slate-900 border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
-                    Visualización
+                <button type="button" id="navVisualizacion" onclick="app.switchView('charts')" class="h-full px-1 flex items-center hover:text-white border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    03. Radar multidimensional
                 </button>
-                <button type="button" onclick="app.openModal('infoModal')" class="py-1 hover:text-slate-900 border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
-                    Metodología
+                <button type="button" onclick="app.openModal('infoModal')" class="h-full px-1 flex items-center hover:text-white border-b-2 border-transparent transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    04. Marco metodológico
                 </button>
             </nav>
 
             <!-- Zone 3: 1 primary action -->
             <div class="flex items-center shrink-0">
-                <button type="button" id="headerPrimaryBtn" onclick="app.handlePrimaryHeaderAction()" class="px-4 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
-                    Generar diagnóstico
+                <button type="button" id="headerPrimaryBtn" onclick="app.handlePrimaryHeaderAction()" class="px-4 py-2 text-xs font-semibold text-white bg-[#0F62FE] hover:bg-[#0043CE] active:bg-[#002D9C] border border-[#4589FF]/40 rounded-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                    Emitir diagnóstico
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Workspace Viewport (1440px desktop baseline) -->
-    <main class="flex-1 max-w-[1360px] w-full mx-auto px-6 py-8 md:py-10">
+    <!-- Main Research Workbench (1400px desktop baseline) -->
+    <main class="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 py-6 md:py-8">
 
-        <!-- Workspace Editorial Header & Utility Toolbar -->
-        <section class="pb-8 mb-8 border-b border-slate-200 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-            <div class="max-w-3xl">
-                <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2.5">
-                    <span>Diagnóstico académico y profesional</span>
-                    <span aria-hidden="true">·</span>
-                    <span id="aiStatusText">Verificando motor de análisis</span>
-                    <span aria-hidden="true">·</span>
-                    <span>Almacenamiento local privado</span>
+        <!-- Compact Technical Header + 4-Column Telemetry Bar -->
+        <section class="bg-white border border-[#D5DCE6] mb-6">
+            <div class="p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 border-b border-[#E2E8F0]">
+                <div class="max-w-3xl">
+                    <div class="flex flex-wrap items-center gap-2 text-[11px] font-mono-tabular uppercase tracking-wider text-[#0F62FE] font-semibold mb-1.5">
+                        <span>Instrumento determinista de evaluación</span>
+                        <span aria-hidden="true">·</span>
+                        <span id="engineStatusText" class="text-[#475569]">OIT · CEPAL/ILIA · Harvard/BCG · Stanford (2025-2026)</span>
+                    </div>
+                    <h1 class="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-[#0F2C59]">
+                        Evaluación de impacto de la inteligencia artificial generativa
+                    </h1>
+                    <p class="mt-1.5 text-xs sm:text-sm text-[#475569] leading-relaxed">
+                        Cuantificación reproducible de complementariedad ocupacional, ahorro horario semanal neto y riesgo en la frontera tecnológica irregular.
+                    </p>
                 </div>
-                <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">
-                    Evaluación de impacto: IAGen en el día a día
-                </h1>
-                <p class="mt-2.5 text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
-                    Instrumento de análisis crítico para dimensionar oportunidades de automatización, brechas de competencias y riesgos éticos en la adopción de inteligencia artificial generativa.
-                </p>
+
+                <!-- Workspace Secondary Controls -->
+                <div class="flex flex-wrap items-center gap-2 shrink-0">
+                    <button type="button" id="saveBtn" onclick="app.saveProgress(true)" class="px-3.5 py-2 text-xs font-medium text-[#0F62FE] bg-[#EDF5FF] hover:bg-[#D0E2FF] border border-[#0F62FE]/30 rounded-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer hidden">
+                        Guardar borrador
+                    </button>
+                    <button type="button" onclick="app.openModal('infoModal')" class="px-3.5 py-2 text-xs font-medium text-[#0F2C59] bg-[#F1F5F9] hover:bg-[#E2E8F0] border border-[#CBD5E1] rounded-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                        Documentación metodológica
+                    </button>
+                    <button type="button" onclick="app.requestRestart()" class="px-3.5 py-2 text-xs font-medium text-[#475569] hover:text-[#DA1E28] bg-white hover:bg-[#FFF1F1] border border-[#CBD5E1] rounded-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                        Reiniciar sesión
+                    </button>
+                </div>
             </div>
 
-            <!-- Workspace Secondary Actions Toolbar -->
-            <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-                <button type="button" onclick="app.loadSampleCase()" class="px-3.5 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer">
-                    Cargar caso de ejemplo
-                </button>
-                <button type="button" id="saveBtn" onclick="app.saveProgress(true)" class="px-3.5 py-2 text-xs font-medium text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer hidden">
-                    Guardar cambios
-                </button>
-                <button type="button" onclick="app.requestRestart()" class="px-3.5 py-2 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer">
-                    Reiniciar
-                </button>
+            <!-- 4-Column Real-Time Telemetry Strip -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#E2E8F0] bg-[#F8FAFC] text-xs">
+                <div class="px-5 py-3.5">
+                    <span class="text-[11px] font-mono-tabular uppercase tracking-wider text-[#64748B] block mb-0.5">Módulo activo</span>
+                    <span id="ribbonActiveChapter" class="font-mono-tabular font-semibold text-[#0F2C59]">01 / 04 · Perfil profesional</span>
+                </div>
+                <div class="px-5 py-3.5">
+                    <span class="text-[11px] font-mono-tabular uppercase tracking-wider text-[#64748B] block mb-0.5">Progreso global</span>
+                    <div class="flex items-center justify-between gap-3">
+                        <span id="completionCounter" class="font-mono-tabular font-semibold text-[#0F2C59]">0 / 13 criterios</span>
+                        <span id="completionPctBadge" class="font-mono-tabular text-[11px] font-semibold text-[#0F62FE]">0%</span>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5">
+                    <span class="text-[11px] font-mono-tabular uppercase tracking-wider text-[#64748B] block mb-0.5">Régimen OIT / Arquetipo ILIA</span>
+                    <span id="ribbonArchetypeStatus" class="font-medium text-[#0F2C59] truncate block">Selecciona tu sector para previsualizar</span>
+                </div>
+                <div class="px-5 py-3.5">
+                    <span class="text-[11px] font-mono-tabular uppercase tracking-wider text-[#64748B] block mb-0.5">Índice heurístico / Ahorro neto</span>
+                    <span id="ribbonGlobalScore" class="font-mono-tabular font-semibold text-[#0F62FE]">En captura de parámetros</span>
+                </div>
             </div>
+
+            <!-- Interactive 4-Step Horizontal Stepper Bar -->
+            <nav aria-label="Progreso por dimensiones" id="horizontalStepper" class="grid grid-cols-2 lg:grid-cols-4 border-t border-[#D5DCE6] bg-white divide-y lg:divide-y-0 divide-x divide-[#E2E8F0]">
+                <!-- Populated dynamically by index.tsx -->
+            </nav>
         </section>
 
-        <!-- Two-Zone Workspace Layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Asymmetric Two-Column Workbench Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-            <!-- Left Column: Navigation Rail & Live Profile Telemetry (4 cols) -->
-            <aside class="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+            <!-- Primary Interactive Stage (8 cols on Left for immediate ergonomic focus) -->
+            <div class="lg:col-span-8 order-1">
 
-                <!-- Dimension Stepper Panel -->
-                <div id="progressSection" class="bg-white border border-slate-200 rounded-xl p-6">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-semibold text-slate-900">Progreso del cuestionario</span>
-                        <span id="progressText" class="text-xs font-mono-tabular font-medium text-slate-600">01 / 04</span>
-                    </div>
-                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mb-6">
-                        <div id="progressFill" class="h-full bg-sky-600 transition-all duration-200 ease-out" style="width: 25%"></div>
-                    </div>
-
-                    <nav aria-label="Dimensiones de evaluación" id="stepRail" class="divide-y divide-slate-100">
+                <!-- Questionnaire Sheet -->
+                <div id="questionnaireWrapper" class="bg-white border border-[#D5DCE6]">
+                    <!-- Interactive Question Jump Sub-Bar -->
+                    <div id="criterionJumpBar" class="px-6 py-3 bg-[#F8FAFC] border-b border-[#E2E8F0] flex flex-wrap items-center justify-between gap-2">
                         <!-- Dynamically populated by index.tsx -->
-                    </nav>
-                </div>
-
-                <!-- Live Profile Synthesis Panel -->
-                <div class="bg-white border border-slate-200 rounded-xl p-6">
-                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
-                        <h2 class="font-display text-sm font-semibold text-slate-900">Síntesis de parámetros</h2>
-                        <span id="completionCounter" class="text-xs font-mono-tabular text-slate-500">0/14 respuestas</span>
                     </div>
-                    <dl id="liveTelemetry" class="space-y-3 text-xs">
-                        <!-- Dynamically populated by index.tsx -->
-                    </dl>
-                </div>
-            </aside>
 
-            <!-- Right Column: Interactive Stage (8 cols) -->
-            <div class="lg:col-span-8">
+                    <div id="stepContent" class="p-6 sm:p-8"></div>
 
-                <!-- Questionnaire View -->
-                <div id="questionnaireWrapper" class="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 lg:p-10">
-                    <div id="stepContent"></div>
-
-                    <!-- Step Footer Navigation -->
-                    <div id="navigationSection" class="mt-10 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <button type="button" id="prevBtn" onclick="app.previousStep()" disabled class="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors disabled:opacity-40 disabled:pointer-events-none whitespace-nowrap shrink-0 cursor-pointer">
-                            ← Dimensión anterior
+                    <!-- Ergonomic Step Footer Navigation -->
+                    <div id="navigationSection" class="px-6 sm:px-8 py-5 bg-[#F8FAFC] border-t border-[#D5DCE6] flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <button type="button" id="prevBtn" onclick="app.previousStep()" disabled class="w-full sm:w-auto px-5 py-2.5 text-xs font-semibold text-[#0F2C59] bg-white hover:bg-[#F1F5F9] border border-[#94A3B8] rounded-xs transition-colors disabled:opacity-40 disabled:pointer-events-none whitespace-nowrap shrink-0 cursor-pointer">
+                            ← Módulo anterior
                         </button>
 
                         <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
-                            <button type="button" onclick="app.saveProgress(true)" class="px-4 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer">
-                                Guardar borrador
+                            <span class="hidden xl:inline-block text-[11px] font-mono-tabular text-[#64748B] mr-2">Atajo: Alt + ← / →</span>
+                            <button type="button" onclick="app.saveProgress(true)" class="px-4 py-2.5 text-xs font-medium text-[#475569] hover:text-[#0F2C59] bg-white border border-[#CBD5E1] hover:border-[#64748B] rounded-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                                Guardar progreso
                             </button>
-                            <button type="button" id="nextBtn" onclick="app.nextStep()" class="w-full sm:w-auto px-6 py-2.5 text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer">
-                                Siguiente dimensión →
+                            <button type="button" id="nextBtn" onclick="app.nextStep()" class="w-full sm:w-auto px-6 py-2.5 text-xs font-semibold text-white bg-[#0F62FE] hover:bg-[#0043CE] active:bg-[#002D9C] rounded-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                                Siguiente módulo →
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Loading Analysis View -->
-                <div id="loadingScreen" class="hidden bg-white border border-slate-200 rounded-xl p-10 sm:p-14 text-center">
-                    <div class="w-12 h-12 mx-auto mb-6 rounded-full border-2 border-slate-200 border-t-sky-600 animate-spin"></div>
-                    <h2 class="font-display text-xl font-bold text-slate-900 mb-2">
-                        Procesando diagnóstico académico y profesional
-                    </h2>
-                    <p class="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                        Contrastando la distribución de tareas, expectativas de productividad y barreras institucionales para estructurar el informe ejecutivo.
-                    </p>
-                    <div class="mt-8 max-w-md mx-auto space-y-3 text-left">
-                        <div class="h-3 bg-slate-100 rounded w-3/4 animate-pulse"></div>
-                        <div class="h-3 bg-slate-100 rounded w-full animate-pulse"></div>
-                        <div class="h-3 bg-slate-100 rounded w-5/6 animate-pulse"></div>
+                <!-- Executive Report & Visual Analytics View -->
+                <div id="resultsContainer" class="hidden space-y-6"></div>
+
+            </div>
+
+            <!-- Right Inspector Rail: Live Diagnostic Simulator & Empirical Benchmarks (4 cols) -->
+            <aside class="lg:col-span-4 order-2 space-y-6 lg:sticky lg:top-20">
+
+                <!-- Live Diagnostic Inspector & Partial Preview (Institutional Cobalt-Azure Strip instead of black) -->
+                <div class="bg-white border border-[#D5DCE6]">
+                    <div class="px-5 py-3.5 bg-[#EDF5FF] text-[#0F2C59] border-b border-[#D0E2FF] flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-[#0F62FE]"></span>
+                            <h2 class="font-display text-xs font-semibold uppercase tracking-wider text-[#0F2C59]">Inspector diagnóstico en vivo</h2>
+                        </div>
+                        <span id="progressText" class="text-[11px] font-mono-tabular font-medium text-[#0043CE]">Módulo 01 / 04</span>
+                    </div>
+                    <div class="w-full h-1 bg-[#DCE3EE] overflow-hidden">
+                        <div id="progressFill" class="h-full bg-[#0F62FE] transition-all duration-150 ease-out" style="width: 25%"></div>
+                    </div>
+
+                    <div class="px-5 py-2.5 bg-[#F8FAFC] border-b border-[#E2E8F0] flex items-center justify-between text-[11px] text-[#475569]">
+                        <span>Pasa el cursor sobre cada indicador para ver su definición OIT/CEPAL</span>
+                        <span class="font-mono-tabular text-[#0F62FE] font-medium">ⓘ Guía</span>
+                    </div>
+
+                    <div class="p-5">
+                        <dl id="liveTelemetry" class="divide-y divide-[#E2E8F0] text-xs">
+                            <!-- Dynamically populated by index.tsx -->
+                        </dl>
                     </div>
                 </div>
 
-                <!-- Executive Report & Analytics View -->
-                <div id="resultsContainer" class="hidden space-y-8"></div>
+                <!-- Chapter Quick-Index & Completion Checklist -->
+                <div id="progressSection" class="bg-white border border-[#D5DCE6]">
+                    <div class="px-5 py-3 bg-[#F8FAFC] border-b border-[#E2E8F0] flex items-center justify-between">
+                        <span class="text-xs font-semibold text-[#0F2C59]">Mapa de módulos del protocolo</span>
+                        <span class="text-[11px] font-mono-tabular text-[#64748B]">D1 – D5</span>
+                    </div>
+                    <nav aria-label="Módulos de evaluación" id="stepRail" class="divide-y divide-[#E2E8F0]">
+                        <!-- Dynamically populated by index.tsx -->
+                    </nav>
+                </div>
 
-            </div>
+            </aside>
         </div>
     </main>
 
-    <!-- Quiet Academic Footer -->
-    <footer class="mt-16 border-t border-slate-200 bg-white">
-        <div class="max-w-[1360px] mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+    <!-- Quiet Technical Footer -->
+    <footer class="mt-14 border-t border-[#D9D9D4] bg-white">
+        <div class="max-w-[1400px] mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#525252]">
             <div class="flex flex-wrap items-center gap-2">
-                <span class="font-medium text-slate-700">Evaluación de impacto: IAGen</span>
+                <span class="font-semibold text-[#161616]">Evaluación de impacto: IAGen</span>
                 <span aria-hidden="true">·</span>
-                <span>Autor: <a href="https://www.linkedin.com/in/franciscosereno" target="_blank" rel="noopener noreferrer" class="text-slate-700 hover:text-sky-600 underline underline-offset-2">Francisco Sereño</a></span>
+                <span>Autor: <a href="https://www.linkedin.com/in/franciscosereno" target="_blank" rel="noopener noreferrer" class="text-[#0F62FE] hover:underline font-medium">Francisco Sereño</a></span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
-                <button type="button" onclick="app.openModal('infoModal')" class="hover:text-slate-900 transition-colors cursor-pointer">
+                <button type="button" onclick="app.openModal('infoModal')" class="hover:text-[#161616] transition-colors cursor-pointer">
                     Nota metodológica y licenciamiento
                 </button>
                 <span aria-hidden="true">·</span>
-                <span>CC BY-NC 4.0 / GPL v3.0</span>
+                <span class="font-mono-tabular text-[11px]">CC BY-NC 4.0 / GPL v3.0</span>
             </div>
         </div>
     </footer>
 
     <!-- Methodology & Credits Modal -->
-    <div id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" class="modal hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-xl">
-            <div class="flex items-start justify-between gap-4 pb-4 mb-6 border-b border-slate-200">
+    <div id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" class="modal hidden fixed inset-0 z-50 bg-[#161616]/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white border border-[#D9D9D4] max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-xl">
+            <div class="flex items-start justify-between gap-4 pb-4 mb-6 border-b border-[#E5E5E0]">
                 <div>
-                    <div class="text-xs text-slate-500 mb-1">Documentación del instrumento</div>
-                    <h2 id="infoModalTitle" class="font-display text-xl font-bold text-slate-900">
-                        Marco metodológico y alcance de la evaluación
+                    <div class="text-[11px] font-mono-tabular uppercase tracking-wider text-[#0F62FE] font-semibold mb-1">Documentación técnica del instrumento</div>
+                    <h2 id="infoModalTitle" class="font-display text-xl font-semibold text-[#161616]">
+                        Marco metodológico y evidencia empírica internacional
                     </h2>
                 </div>
-                <button type="button" onclick="app.closeModal('infoModal')" aria-label="Cerrar ventana" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors cursor-pointer">
+                <button type="button" onclick="app.closeModal('infoModal')" aria-label="Cerrar ventana" class="p-1.5 text-[#525252] hover:text-[#161616] transition-colors cursor-pointer">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
-            <div class="space-y-6 text-sm text-slate-600 leading-relaxed">
+            <div class="space-y-6 text-sm text-[#393939] leading-relaxed">
                 <div>
-                    <h3 class="font-display text-sm font-semibold text-slate-900 mb-1.5">Propósito formativo y analítico</h3>
+                    <h3 class="font-display text-base font-semibold text-[#161616] mb-1.5">Propósito formativo y fundamentos empíricos</h3>
                     <p>
-                        Esta herramienta ha sido diseñada como un instrumento de reflexión crítica para profesionales, investigadores y docentes. Su objetivo es evaluar cómo la inteligencia artificial generativa (IAGen) interactúa con las tareas cotidianas, diferenciando entre la automatización operativa y el trabajo intelectual o creativo indelegable.
+                        Esta herramienta es un instrumento de evaluación académica y profesional que opera mediante un motor heurístico y determinista. Integra hallazgos empíricos de la <strong>OIT</strong> y la <strong>CEPAL</strong> (exposición ocupacional y complementariedad frente a sustitución), el marco <strong>ILIA (CEPAL/CENIA)</strong>, la teoría de la <strong>«Frontera Tecnológica Irregular» (Harvard Business School / BCG)</strong> y el efecto de compresión de habilidades del <strong>Stanford AI Index</strong>.
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                        <h4 class="font-display text-xs font-semibold text-slate-900 mb-2">Criterios que evalúa el modelo</h4>
-                        <ul class="space-y-1.5 text-xs text-slate-600">
-                            <li>· Coherencia entre el perfil laboral y las herramientas elegidas</li>
-                            <li>· Detección de posibles sobrestimaciones de productividad</li>
-                            <li>· Identificación de riesgos éticos y de dependencia cognitiva</li>
-                            <li>· Recomendaciones escalonadas a corto y mediano plazo</li>
+                    <div class="p-4 bg-[#FAFAFA] border border-[#E5E5E0]">
+                        <h4 class="font-display text-xs font-semibold text-[#161616] mb-2">Indicadores deterministas del modelo</h4>
+                        <ul class="space-y-1.5 text-xs text-[#525252]">
+                            <li>· Ponderación multicriterio en 5 dimensiones (D1 a D5)</li>
+                            <li>· Índice OIT/CEPAL de complementariedad humano-IA</li>
+                            <li>· Riesgo en la «Frontera Tecnológica Irregular» (BCG/HBS)</li>
+                            <li>· Ahorro semanal neto descontando sobrecarga de auditoría</li>
                         </ul>
                     </div>
-                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                        <h4 class="font-display text-xs font-semibold text-slate-900 mb-2">Privacidad y persistencia</h4>
-                        <ul class="space-y-1.5 text-xs text-slate-600">
-                            <li>· Las respuestas se almacenan en el navegador (<code class="font-mono-tabular">localStorage</code>)</li>
-                            <li>· Los resultados son orientativos y requieren validación práctica</li>
-                            <li>· Incluye modo de respaldo local si no hay conexión a la API</li>
-                            <li>· Exportación directa a PDF sin servidores intermedios</li>
+                    <div class="p-4 bg-[#FAFAFA] border border-[#E5E5E0]">
+                        <h4 class="font-display text-xs font-semibold text-[#161616] mb-2">Privacidad y ejecución local</h4>
+                        <ul class="space-y-1.5 text-xs text-[#525252]">
+                            <li>· Procesamiento 100% local en el navegador sin APIs externas</li>
+                            <li>· Reproducibilidad exacta ante un mismo conjunto de respuestas</li>
+                            <li>· Almacenamiento de sesión en <code class="font-mono-tabular">localStorage</code></li>
+                            <li>· Exportación de informe académico completo en formato PDF</li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="pt-4 border-t border-slate-200 text-xs text-slate-500 space-y-1.5">
+                <div class="pt-4 border-t border-[#E5E5E0] text-xs text-[#525252] space-y-1.5">
                     <p>
-                        <strong class="text-slate-800">Créditos y autoría:</strong>
-                        <a href="https://www.linkedin.com/in/franciscosereno" target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:text-sky-700 font-medium underline underline-offset-2">Francisco Sereño (LinkedIn)</a>
+                        <strong class="text-[#161616]">Créditos y autoría:</strong>
+                        <a href="https://www.linkedin.com/in/franciscosereno" target="_blank" rel="noopener noreferrer" class="text-[#0F62FE] hover:underline font-medium">Francisco Sereño (LinkedIn)</a>
                         — Profesor, doctor (c) en Educación y Sociedad, Universitat de Barcelona.
                     </p>
                     <p>
-                        <strong class="text-slate-800">Licenciamiento:</strong>
+                        <strong class="text-[#161616]">Licenciamiento:</strong>
                         Código fuente bajo licencia GNU General Public License v3.0 (GPL-3.0) · Contenido didáctico bajo Creative Commons Atribución-NoComercial 4.0 Internacional (CC BY-NC 4.0).
                     </p>
                 </div>
             </div>
 
-            <div class="mt-6 pt-4 border-t border-slate-200 flex justify-end">
-                <button type="button" onclick="app.closeModal('infoModal')" class="px-4 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
+            <div class="mt-6 pt-4 border-t border-[#E5E5E0] flex justify-end">
+                <button type="button" onclick="app.closeModal('infoModal')" class="px-5 py-2 text-xs font-semibold text-white bg-[#0F62FE] hover:bg-[#0043CE] rounded-xs transition-colors cursor-pointer">
                     Entendido
                 </button>
             </div>
@@ -276,19 +287,19 @@
     </div>
 
     <!-- Reset Confirmation Modal -->
-    <div id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle" class="modal hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-xl max-w-md w-full p-6 shadow-xl">
-            <h2 id="confirmModalTitle" class="font-display text-lg font-bold text-slate-900 mb-2">
+    <div id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle" class="modal hidden fixed inset-0 z-50 bg-[#161616]/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white border border-[#D9D9D4] max-w-md w-full p-6 shadow-xl">
+            <h2 id="confirmModalTitle" class="font-display text-lg font-semibold text-[#161616] mb-2">
                 ¿Reiniciar el diagnóstico actual?
             </h2>
-            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+            <p class="text-sm text-[#525252] leading-relaxed mb-6">
                 Se borrarán las respuestas registradas y el análisis generado en esta sesión para comenzar una evaluación desde cero.
             </p>
             <div class="flex items-center justify-end gap-3">
-                <button type="button" onclick="app.closeModal('confirmModal')" class="px-4 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors cursor-pointer">
+                <button type="button" onclick="app.closeModal('confirmModal')" class="px-4 py-2 text-xs font-medium text-[#161616] bg-[#F4F4F0] hover:bg-[#E8E8E3] border border-[#D9D9D4] rounded-xs transition-colors cursor-pointer">
                     Cancelar
                 </button>
-                <button type="button" onclick="app.confirmRestart()" class="px-4 py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors cursor-pointer">
+                <button type="button" onclick="app.confirmRestart()" class="px-4 py-2 text-xs font-semibold text-white bg-[#DA1E28] hover:bg-[#A2191F] rounded-xs transition-colors cursor-pointer">
                     Sí, reiniciar evaluación
                 </button>
             </div>
